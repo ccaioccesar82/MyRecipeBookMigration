@@ -28,14 +28,14 @@ namespace MyRecipeBook.Infrastructure.DataAccess.Repositories.User
 
         }
 
-        public async Task UnctivateUser(long id)
+        public async Task UnctivateUser(Guid id)
         {
             var userResult = await _dbContext.User.SingleAsync(u=> u.Id == id);
 
             userResult.SetActivate(false);
         }
 
-        public async Task<Users?> SearchUserById(long id)
+        public async Task<Users?> SearchUserById(Guid id)
         {
             return await _dbContext.User.SingleOrDefaultAsync(u => u.Id == id);
         }

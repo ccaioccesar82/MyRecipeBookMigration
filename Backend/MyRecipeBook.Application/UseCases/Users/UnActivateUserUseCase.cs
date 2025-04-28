@@ -17,14 +17,14 @@ namespace MyRecipeBook.Application.UseCases.Users
         }
 
 
-        public async Task Execute(long id)
+        public async Task Execute(Guid id)
         {
             await ValidateUserId(id);
             await _userRepository.UnctivateUser(id);
 
             await _unityOfWork.Commit();
         }      
-        private async Task ValidateUserId(long id)
+        private async Task ValidateUserId(Guid id)
         {
            var result = await _userRepository.SearchUserById(id);
 

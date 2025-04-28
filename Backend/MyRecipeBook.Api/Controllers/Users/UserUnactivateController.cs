@@ -11,7 +11,7 @@ namespace MyRecipeBook.Api.Controllers.Users
         [HttpDelete]
         public async Task<IActionResult> Desactivate
             ([FromServices] IUnactivateUserUseCase userCase,
-           long userId)
+           Guid userId)
         {
             try
             {

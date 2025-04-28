@@ -7,7 +7,7 @@ namespace MyRecipeBook.Infrastructure.Migrations
     public static class MigrateDatabase
     {
 
-
+        //Criando um método para validar se já existe o database na máquina do servidor. Caso não tenha, será criado.
         public static void EnsureDatabaseIsCreated(string connectionString)
         {
 
