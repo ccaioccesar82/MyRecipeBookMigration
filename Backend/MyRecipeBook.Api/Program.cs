@@ -15,6 +15,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);
 
+builder.Services.AddRouting(option => option.LowercaseUrls = true);
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -42,6 +44,8 @@ void ValidateMyDatabase(IConfiguration configuration)
 
     string? connectionString = configuration.GetConnectionString("Connection");
 
-    MigrateDatabase.EnsureDatabaseIsCreated(connectionString);
-    
+    if (connectionString != null)
+    {
+        MigrateDatabase.EnsureDatabaseIsCreated(connectionString);
+    }
 }
