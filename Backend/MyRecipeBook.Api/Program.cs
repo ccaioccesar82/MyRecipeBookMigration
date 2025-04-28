@@ -1,6 +1,8 @@
+using Microsoft.Extensions.Configuration;
 using MyRecipeBook.Api.Middlewares;
 using MyRecipeBook.Application;
 using MyRecipeBook.Infrastructure;
+using MyRecipeBook.Infrastructure.Migrations;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,4 +32,16 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+ValidateMyDatabase(builder.Configuration);
+
 app.Run();
+
+
+void ValidateMyDatabase(IConfiguration configuration)
+{
+
+    string? connectionString = configuration.GetConnectionString("Connection");
+
+    MigrateDatabase.EnsureDatabaseIsCreated(connectionString);
+    
+}
