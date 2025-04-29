@@ -36,7 +36,9 @@ namespace Microsoft.AspNetCore.Builder
         public static void addRepositories(IServiceCollection service)
         {
 
-            service.AddScoped<IUserRepository, UserRepository>();
+            service.AddScoped<IUserRepository, UserCreateRepository>();
+            service.AddScoped<IUserUnactivateRepository, UserUncativateRepository>();
+            service.AddScoped<IUserLoginRepository, UserLoginRepository>();
             service.AddScoped<IUnityOfWork, UnityOfWork>();
         }
 

@@ -7,12 +7,12 @@ namespace MyRecipeBook.Application.UseCases.Users
     public class UnactivateUserUseCase : IUnactivateUserUseCase
     {
 
-        private IUserRepository _userRepository;
+        private IUserUnactivateRepository _userUnactivateRepository;
         private IUnityOfWork _unityOfWork;
 
-        public UnactivateUserUseCase(IUserRepository userRepository, IUnityOfWork unityOfWork)
+        public UnactivateUserUseCase(IUserUnactivateRepository userRepository, IUnityOfWork unityOfWork)
         {
-            _userRepository = userRepository;
+            _userUnactivateRepository = userRepository;
             _unityOfWork = unityOfWork;
         }
 
@@ -20,13 +20,13 @@ namespace MyRecipeBook.Application.UseCases.Users
         public async Task Execute(Guid id)
         {
             await ValidateUserId(id);
-            await _userRepository.UnctivateUser(id);
+            await _userUnactivateRepository.UnctivateUser(id);
 
             await _unityOfWork.Commit();
         }      
         private async Task ValidateUserId(Guid id)
         {
-           var result = await _userRepository.SearchUserById(id);
+           var result = await _userUnactivateRepository.SearchUserById(id);
 
             if (result == null)
             {

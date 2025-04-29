@@ -4,7 +4,7 @@ using MyRecipeBook.Application.UseCases.Interfaces.UserUseCaseInterface;
 
 namespace MyRecipeBook.Api.Controllers.Users
 {
-    [Route("unactivate/user/{userId}")]
+    [Route("user/unactivate/{userId}")]
     [ApiController]
     public class UserUnactivateController : ControllerBase
     {

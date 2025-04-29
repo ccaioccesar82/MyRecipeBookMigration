@@ -5,7 +5,7 @@ using MyRecipeBook.Communication.Response.Users;
 
 namespace MyRecipeBook.Api.Controllers.Users
 {
-    [Route("create/user")]
+    [Route("user/create")]
     [ApiController]
     public class Users : ControllerBase
     {
