@@ -19,19 +19,18 @@ namespace MyRecipeBook.Application.UseCases.Users
 
         public async Task Execute(Guid id)
         {
-            await ValidateUserId(id);
-            await _userUnactivateRepository.UnctivateUser(id);
-
-            await _unityOfWork.Commit();
-        }      
-        private async Task ValidateUserId(Guid id)
-        {
-           var result = await _userUnactivateRepository.SearchUserById(id);
-
+            var result = await _userUnactivateRepository.SearchUserById(id);
             if (result == null)
             {
                 throw new Exception("User não existe no banco de dados");
             }
-        }
+            else
+            {
+                _userUnactivateRepository.UnctivateUser(result);
+                await _unityOfWork.Commit();
+            }
+
+        }      
+        
     }
 }
