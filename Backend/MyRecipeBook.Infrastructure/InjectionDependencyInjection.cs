@@ -7,7 +7,7 @@ using MyRecipeBook.Infrastructure.DataAccess;
 using MyRecipeBook.Infrastructure.DataAccess.Repositories;
 using MyRecipeBook.Infrastructure.DataAccess.Repositories.User;
 
-namespace MyRecipeBook.Infrastructure
+namespace Microsoft.AspNetCore.Builder
 {
     public static class InjectionDependencyInjection
     {

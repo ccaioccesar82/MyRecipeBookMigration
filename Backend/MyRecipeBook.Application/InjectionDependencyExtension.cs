@@ -1,12 +1,10 @@
-﻿using AutoMapper;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using MyRecipeBook.Application.AutoMapperService;
 using MyRecipeBook.Application.UseCases.Interfaces.UserUseCaseInterface;
 using MyRecipeBook.Application.UseCases.Users;
-using MyRecipeBook.Domain.Entities.User;
-using MyRecipeBook.Domain.Interfaces.RepositoryInterfaces.Users;
 
-namespace MyRecipeBook.Application
+
+namespace Microsoft.AspNetCore.Builder
 {
     public static class InjectionDepencyExtension
     {
