@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MyRecipeBook.Application.UseCases.Interfaces.UserUseCaseInterface;
 
@@ -6,6 +7,7 @@ namespace MyRecipeBook.Api.Controllers.Users
 {
     [Route("user/unactivate/{userId}")]
     [ApiController]
+    [Authorize]
     public class UserUnactivateController : ControllerBase
     {
         [HttpDelete]
