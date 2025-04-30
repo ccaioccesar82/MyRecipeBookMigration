@@ -3,9 +3,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MyRecipeBook.Domain.Interfaces.RepositoryInterfaces;
 using MyRecipeBook.Domain.Interfaces.RepositoryInterfaces.Users;
+using MyRecipeBook.Domain.Interfaces.SecurityInterface;
 using MyRecipeBook.Infrastructure.DataAccess;
 using MyRecipeBook.Infrastructure.DataAccess.Repositories;
 using MyRecipeBook.Infrastructure.DataAccess.Repositories.User;
+using MyRecipeBook.Infrastructure.Security.Token;
 
 namespace Microsoft.AspNetCore.Builder
 {
@@ -17,10 +19,10 @@ namespace Microsoft.AspNetCore.Builder
         {
             addDbContext(service, configuration);
             addRepositories(service);
-
+            AddTokens(service, configuration);
         }
 
-        public static void addDbContext(IServiceCollection service, IConfiguration configuration)
+        private static void addDbContext(IServiceCollection service, IConfiguration configuration)
         {
             string? connectionString = configuration.GetConnectionString("Connection");
 
@@ -33,13 +35,21 @@ namespace Microsoft.AspNetCore.Builder
         }
 
 
-        public static void addRepositories(IServiceCollection service)
+        private static void addRepositories(IServiceCollection service)
         {
 
             service.AddScoped<IUserRepository, UserCreateRepository>();
             service.AddScoped<IUserUnactivateRepository, UserUncativateRepository>();
             service.AddScoped<IUserLoginRepository, UserLoginRepository>();
             service.AddScoped<IUnityOfWork, UnityOfWork>();
+        }
+
+        private static void AddTokens(IServiceCollection service, IConfiguration configuration)
+        {
+            var expirationTimeMinutes = configuration.GetValue<uint>("Settings:Jwt:ExpirationTimeMinutes");
+            var signingKey = configuration.GetValue<string>("Settings:Jwt:SigningKey");
+
+            service.AddScoped<ITokenGenerator>(options => new JwtTokenGenerator(expirationTimeMinutes, signingKey!));
         }
 
     }

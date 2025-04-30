@@ -8,6 +8,8 @@ using MyRecipeBook.Domain.Interfaces.RepositoryInterfaces.Users;
 using AutoMapper;
 using MyRecipeBook.Application.UseCases.Interfaces.UserUseCaseInterface;
 using MyRecipeBook.Domain.Interfaces.RepositoryInterfaces;
+using MyRecipeBook.Communication.Response.Token;
+using MyRecipeBook.Domain.Interfaces.SecurityInterface;
 
 
 namespace MyRecipeBook.Application.UseCases.Users
@@ -18,16 +20,18 @@ namespace MyRecipeBook.Application.UseCases.Users
         private IUserRepository _iuserRepository;
         private IMapper _mapper;
         private IUnityOfWork _unityOfWork;
+        private ITokenGenerator _tokenGenerator;
 
 
-        public UserCreationUseCase(IUserRepository iuserRepository, IMapper mapper, IUnityOfWork unityOfWork)
+        public UserCreationUseCase(IUserRepository iuserRepository, IMapper mapper, IUnityOfWork unityOfWork, ITokenGenerator tokenGenerator)
         {
             _iuserRepository = iuserRepository;
             _mapper = mapper;
             _unityOfWork = unityOfWork;
+            _tokenGenerator = tokenGenerator;
         }
 
-        public async Task<UserCreationResponse> Execute(UserCreationRequest request)
+        public async Task<AccessTokenResponseJson> Execute(UserCreationRequest request)
         {
             //Valida o usuário
             await ValidateEmail(request.Email);
@@ -48,9 +52,9 @@ namespace MyRecipeBook.Application.UseCases.Users
             await _iuserRepository.CreateUser(user);
 
             await _unityOfWork.Commit();
-            return new UserCreationResponse
+            return new AccessTokenResponseJson //Retorna um token de acesso para o usuário
             {
-                Name = request.Name
+                AccessToken = _tokenGenerator.Generate(user.Id)
             };
 
         }

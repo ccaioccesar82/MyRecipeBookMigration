@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MyRecipeBook.Application.UseCases.Interfaces.UserUseCaseInterface;
 using MyRecipeBook.Communication.Request.Users;
-using MyRecipeBook.Communication.Response.Users;
+using MyRecipeBook.Communication.Response.Token;
 
 namespace MyRecipeBook.Api.Controllers.Users
 {
@@ -10,7 +10,7 @@ namespace MyRecipeBook.Api.Controllers.Users
     public class Users : ControllerBase
     {
         [HttpPost]
-        [ProducesResponseType(typeof(UserCreationResponse), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(AccessTokenResponseJson), StatusCodes.Status201Created)]
         public async Task<IActionResult> Register(
            [FromServices] IUserCreateUserCase usecase,
            [FromBody] UserCreationRequest request)

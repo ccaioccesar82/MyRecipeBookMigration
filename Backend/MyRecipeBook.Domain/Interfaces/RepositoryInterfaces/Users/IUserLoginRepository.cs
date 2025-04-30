@@ -8,6 +8,6 @@ namespace MyRecipeBook.Domain.Interfaces.RepositoryInterfaces.Users
 {
     public interface IUserLoginRepository
     {
-        public Task<Entities.User.Users?> SeachUserByEmailAndPassword(string password, string email);
+        public Task<Entities.User.Users?> SeachUserByEmailAndPassword(string email, string password);
     }
 }

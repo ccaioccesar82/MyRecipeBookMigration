@@ -9,8 +9,6 @@ namespace Microsoft.AspNetCore.Builder
     public static class InjectionDepencyExtension
     {
 
-
-
         public static void AddApplication(this IServiceCollection service)
         {
             addUseCases(service);

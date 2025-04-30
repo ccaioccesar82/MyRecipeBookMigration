@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MyRecipeBook.Communication.Request.Users;
-using MyRecipeBook.Communication.Response.Users;
+﻿using MyRecipeBook.Communication.Request.Users;
+using MyRecipeBook.Communication.Response.Token;
+
 
 namespace MyRecipeBook.Application.UseCases.Interfaces.UserUseCaseInterface
 {
     public interface IUserCreateUserCase
     {
-        public Task<UserCreationResponse> Execute(UserCreationRequest request);
+        public Task<AccessTokenResponseJson> Execute(UserCreationRequest request);
     }
 }
