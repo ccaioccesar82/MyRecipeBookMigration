@@ -6,6 +6,8 @@ using System.Security.Cryptography.Xml;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using MyRecipeBook.Domain.Interfaces.TokenProvider;
+using MyRecipeBook.Infrastructure.Security.Token;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -64,9 +66,11 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);
+builder.Services.AddScoped<ITokenProvider, HttpContextTokenValue>();
 
 builder.Services.AddRouting(option => option.LowercaseUrls = true);
 
+builder.Services.AddHttpContextAccessor();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

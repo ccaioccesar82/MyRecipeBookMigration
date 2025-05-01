@@ -6,6 +6,8 @@
         public string Email { get; set; } = string.Empty;
         public string Password { get; private set; } = string.Empty;
 
+        public Guid UserIdentifier { get; set; }
+
 
 
         public void SetPassword(string password)

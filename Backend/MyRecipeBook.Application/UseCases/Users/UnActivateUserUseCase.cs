@@ -1,6 +1,7 @@
 ﻿using MyRecipeBook.Application.UseCases.Interfaces.UserUseCaseInterface;
 using MyRecipeBook.Domain.Interfaces.RepositoryInterfaces;
 using MyRecipeBook.Domain.Interfaces.RepositoryInterfaces.Users;
+using System.Security.Claims;
 
 namespace MyRecipeBook.Application.UseCases.Users
 {
@@ -20,6 +21,7 @@ namespace MyRecipeBook.Application.UseCases.Users
         public async Task Execute(Guid id)
         {
             var result = await _userUnactivateRepository.SearchUserById(id);
+
             if (result == null)
             {
                 throw new Exception("User não existe no banco de dados");

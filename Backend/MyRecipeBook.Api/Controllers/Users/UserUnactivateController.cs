@@ -13,11 +13,12 @@ namespace MyRecipeBook.Api.Controllers.Users
         [HttpDelete]
         public async Task<IActionResult> Desactivate
             ([FromServices] IUnactivateUserUseCase userCase,
-           Guid userId)
+           Guid userIdToDelete)
         {
             try
             {
-                await userCase.Execute(userId);
+                
+                await userCase.Execute(userIdToDelete);
 
                 return Ok();
 
