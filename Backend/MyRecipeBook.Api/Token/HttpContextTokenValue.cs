@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using MyRecipeBook.Domain.Interfaces.TokenProvider;
-using MyRecipeBook.Infrastructure.Security.Token;
+﻿using MyRecipeBook.Domain.Interfaces.TokenProvider;
 namespace MyRecipeBook.Infrastructure.Security.Token
 {
     public class HttpContextTokenValue : ITokenProvider
@@ -23,7 +21,7 @@ namespace MyRecipeBook.Infrastructure.Security.Token
                 throw new Exception("Sem autorização");
             }
 ;
-            return authorization["Bearer ".Length..].Trim();
+            return authorization.Substring(7).Trim();
         }
     }
 }

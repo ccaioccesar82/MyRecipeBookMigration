@@ -49,7 +49,7 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+/*builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
 #pragma warning disable CS8604 // Possible null reference argument.
@@ -62,7 +62,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             (Encoding.UTF8.GetBytes(builder.Configuration.GetValue<string>("Settings:Jwt:SigningKey")))
         };
 #pragma warning restore CS8604 // Possible null reference argument.
-    });
+    });*/
 
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);
@@ -102,4 +102,4 @@ void ValidateMyDatabase(IConfiguration configuration)
     {
         MigrateDatabase.EnsureDatabaseIsCreated(connectionString);
     }
-}
+};

@@ -7,13 +7,13 @@ using MyRecipeBook.Domain.Interfaces.RepositoryInterfaces.Users.Logger;
 
 namespace MyRecipeBook.Infrastructure.DataAccess.Repositories.User
 {
-    public class Logger : ILogger
+    public class LoggedUser : ILoggedUser
 
     {
         private readonly MyRecipeBookDbContext _dbContext;
         private readonly ITokenProvider _tokenProvider;
 
-        public Logger(MyRecipeBookDbContext dbContext, ITokenProvider tokenProvider)
+        public LoggedUser(MyRecipeBookDbContext dbContext, ITokenProvider tokenProvider)
         {
             _dbContext = dbContext;
             _tokenProvider = tokenProvider;
@@ -30,7 +30,7 @@ namespace MyRecipeBook.Infrastructure.DataAccess.Repositories.User
 
             string identifier = jwtSecurityToken.Claims.First(c => c.Type == ClaimTypes.Sid).Value;
 
-            return await _dbContext.User.AsNoTracking().FirstAsync(u => u.Active == true && u.UserIdentifier == Guid.Parse(identifier));
+            return await _dbContext.User.AsNoTracking().FirstAsync(u => u.Active == true && u.Id == Guid.Parse(identifier));
         }
     }
 }

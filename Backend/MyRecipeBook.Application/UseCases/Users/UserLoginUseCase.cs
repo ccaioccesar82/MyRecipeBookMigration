@@ -33,10 +33,9 @@ namespace MyRecipeBook.Application.UseCases.Users
 
             return new UserLoginResponseJson
             {
-                UserIdentifier = userResult.UserIdentifier.ToString(),
                 accessTokenResponseJson = new AccessTokenResponseJson
                 {
-                    AccessToken = _tokenGenerator.Generate(userResult.UserIdentifier)
+                    AccessToken = _tokenGenerator.Generate(userResult.Id)
                 }
 
             };

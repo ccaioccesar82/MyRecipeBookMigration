@@ -5,6 +5,7 @@ using MyRecipeBook.Domain.Interfaces.RepositoryInterfaces;
 using MyRecipeBook.Domain.Interfaces.RepositoryInterfaces.Users;
 using MyRecipeBook.Domain.Interfaces.RepositoryInterfaces.Users.Logger;
 using MyRecipeBook.Domain.Interfaces.SecurityInterface;
+using MyRecipeBook.Domain.Interfaces.SecurityInterface.TokenValidator;
 using MyRecipeBook.Infrastructure.DataAccess;
 using MyRecipeBook.Infrastructure.DataAccess.Repositories;
 using MyRecipeBook.Infrastructure.DataAccess.Repositories.User;
@@ -43,6 +44,7 @@ namespace Microsoft.AspNetCore.Builder
             service.AddScoped<IUserRepository, UserCreateRepository>();
             service.AddScoped<IUserUnactivateRepository, UserUncativateRepository>();
             service.AddScoped<IUserLoginRepository, UserLoginRepository>();
+            service.AddScoped<IValidateUserInAttribute, ValidateUserInAttribute>();
             service.AddScoped<IUnityOfWork, UnityOfWork>();
         }
 
@@ -52,11 +54,12 @@ namespace Microsoft.AspNetCore.Builder
             var signingKey = configuration.GetValue<string>("Settings:Jwt:SigningKey");
 
             service.AddScoped<ITokenGenerator>(options => new JwtTokenGenerator(expirationTimeMinutes, signingKey!));
+            service.AddScoped<ITokenValidator>(options => new JwtTokenValidator(signingKey!));
         }
 
         private static void AddLogger(IServiceCollection service)
         {
-            service.AddScoped<ILogger, Logger>();
+            service.AddScoped<ILoggedUser, LoggedUser>();
         }
 
     }
