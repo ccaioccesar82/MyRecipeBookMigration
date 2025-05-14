@@ -1,11 +1,9 @@
+using Microsoft.OpenApi.Models;
 using MyRecipeBook.Api.Converters;
 using MyRecipeBook.Api.Middlewares;
+using MyRecipeBook.Domain.Interfaces.TokenProvider;
 using MyRecipeBook.Infrastructure.Migrations;
-using Microsoft.OpenApi.Models;
-using System.Security.Cryptography.Xml;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
+using MyRecipeBook.Infrastructure.Security.Token;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -47,7 +45,7 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+/*builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
 #pragma warning disable CS8604 // Possible null reference argument.
@@ -60,13 +58,15 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             (Encoding.UTF8.GetBytes(builder.Configuration.GetValue<string>("Settings:Jwt:SigningKey")))
         };
 #pragma warning restore CS8604 // Possible null reference argument.
-    });
+    });*/
 
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);
+builder.Services.AddScoped<ITokenProvider, HttpContextTokenValue>();
 
 builder.Services.AddRouting(option => option.LowercaseUrls = true);
 
+builder.Services.AddHttpContextAccessor();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -98,4 +98,4 @@ void ValidateMyDatabase(IConfiguration configuration)
     {
         MigrateDatabase.EnsureDatabaseIsCreated(connectionString);
     }
-}
+};

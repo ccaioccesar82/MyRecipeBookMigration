@@ -5,11 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using MyRecipeBook.Communication.Request.Users;
 using MyRecipeBook.Communication.Response.Token;
+using MyRecipeBook.Communication.Response.Users;
 
 namespace MyRecipeBook.Application.UseCases.Interfaces.UserUseCaseInterface
 {
     public interface IUserLoginUseCase
     {
-        public Task<AccessTokenResponseJson> Execute(UserRequestLogin request);
+        public Task<UserLoginResponseJson> Execute(UserRequestLogin request);
     }
 }

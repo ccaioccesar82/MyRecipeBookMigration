@@ -34,6 +34,7 @@ namespace Microsoft.AspNetCore.Builder
         {
             service.AddScoped<IUserCreateUserCase, UserCreationUseCase>();
             service.AddScoped<IUnactivateUserUseCase, UnactivateUserUseCase>();
+            service.AddScoped<IChangeUserPasswordUseCase, ChangeUserPasswordUseCase>();
             service.AddScoped<IUserLoginUseCase, UserLoginUseCase>();
         }
 

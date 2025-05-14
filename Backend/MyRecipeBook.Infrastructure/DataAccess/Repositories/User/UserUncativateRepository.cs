@@ -14,7 +14,6 @@ namespace MyRecipeBook.Infrastructure.DataAccess.Repositories.User
             _dbContext = dbContext;
         }
 
-
         public void UnctivateUser(Users userResult)
         {
             userResult.SetActivate(false);
@@ -24,5 +23,7 @@ namespace MyRecipeBook.Infrastructure.DataAccess.Repositories.User
         {
             return await _dbContext.User.SingleOrDefaultAsync(u => u.Id == id);
         }
+
+
     }
 }

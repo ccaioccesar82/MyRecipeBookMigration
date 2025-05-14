@@ -31,7 +31,7 @@ namespace MyRecipeBook.Application.UseCases.Users
             _tokenGenerator = tokenGenerator;
         }
 
-        public async Task<AccessTokenResponseJson> Execute(UserCreationRequest request)
+        public async Task<UserCreationResponseJson> Execute(UserCreationRequest request)
         {
             //Valida o usuário
             await ValidateEmail(request.Email);
@@ -52,11 +52,15 @@ namespace MyRecipeBook.Application.UseCases.Users
             await _iuserRepository.CreateUser(user);
 
             await _unityOfWork.Commit();
-            return new AccessTokenResponseJson //Retorna um token de acesso para o usuário
-            {
-                AccessToken = _tokenGenerator.Generate(user.Id)
-            };
 
+            return new UserCreationResponseJson
+            {
+                accessTokenResponseJson = new AccessTokenResponseJson
+                {
+                    AccessToken = _tokenGenerator.Generate(user.Id)
+                }
+
+            };
         }
 
         private void Validate(UserCreationRequest request) // Valida os campos Nome, Email e Senha

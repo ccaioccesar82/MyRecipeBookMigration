@@ -4,7 +4,7 @@ using MyRecipeBook.Communication.Request.Users;
 
 namespace MyRecipeBook.Application.FluentValidation.User
 {
-    internal class UserCreationValidator : AbstractValidator<UserCreationRequest>
+    public class UserCreationValidator : AbstractValidator<UserCreationRequest>
     {
         public UserCreationValidator()
         {

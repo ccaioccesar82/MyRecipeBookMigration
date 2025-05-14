@@ -1,11 +1,12 @@
 ﻿using MyRecipeBook.Communication.Request.Users;
 using MyRecipeBook.Communication.Response.Token;
+using MyRecipeBook.Communication.Response.Users;
 
 
 namespace MyRecipeBook.Application.UseCases.Interfaces.UserUseCaseInterface
 {
     public interface IUserCreateUserCase
     {
-        public Task<AccessTokenResponseJson> Execute(UserCreationRequest request);
+        public Task<UserCreationResponseJson> Execute(UserCreationRequest request);
     }
 }
