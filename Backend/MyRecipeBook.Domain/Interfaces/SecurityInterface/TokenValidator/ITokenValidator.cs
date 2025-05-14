@@ -2,6 +2,6 @@
 {
     public interface ITokenValidator
     {
-        public Guid Validator(string token);
+        public Guid ValidateTokenAndTakeUserIdInToken(string token);
     }
 }

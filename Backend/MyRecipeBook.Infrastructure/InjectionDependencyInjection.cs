@@ -45,7 +45,9 @@ namespace Microsoft.AspNetCore.Builder
             service.AddScoped<IUserUnactivateRepository, UserUncativateRepository>();
             service.AddScoped<IUserLoginRepository, UserLoginRepository>();
             service.AddScoped<IValidateUserInAttribute, ValidateUserInAttribute>();
+            service.AddScoped<ILoggedUser, LoggedUser>();
             service.AddScoped<IUnityOfWork, UnityOfWork>();
+            service.AddScoped<IChageUserPasswordRepository,  ChageUserPasswordRepository>();
         }
 
         private static void AddTokens(IServiceCollection service, IConfiguration configuration)

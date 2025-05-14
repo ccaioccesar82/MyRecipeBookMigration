@@ -12,7 +12,7 @@ namespace MyRecipeBook.Infrastructure.DataAccess.Repositories.User
         {
             _dbContext = dbContext;
         }
-        public async Task<bool> Validate(Guid userIdetifier)
+        public async Task<bool> VerifyIfUserExistAndIsActive(Guid userIdetifier)
         {
             return await _dbContext.User.AnyAsync(u => u.Id == userIdetifier && u.Active == true);
         }

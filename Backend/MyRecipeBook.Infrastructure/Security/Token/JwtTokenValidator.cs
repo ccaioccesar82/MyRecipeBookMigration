@@ -16,7 +16,7 @@ namespace MyRecipeBook.Infrastructure.Security.Token
         }
 
 
-        public Guid Validator(string token)
+        public Guid ValidateTokenAndTakeUserIdInToken(string token)
         {
             var validatorParameter = new TokenValidationParameters
             {

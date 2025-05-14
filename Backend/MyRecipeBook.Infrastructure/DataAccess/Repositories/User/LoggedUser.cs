@@ -20,7 +20,7 @@ namespace MyRecipeBook.Infrastructure.DataAccess.Repositories.User
         }
 
 
-        public async Task<Users> SearchUserByToken()
+        public async Task<Users> FindUserByToken()
         {
             string token = _tokenProvider.Value();
 

@@ -17,12 +17,12 @@ namespace MyRecipeBook.Api.Attributes
 
         public async Task OnAuthorizationAsync(AuthorizationFilterContext context)
         {
-            var token = TokenOnRequest(context);
-            var result = _tokenValidator.Validator(token);
+            string token = TokenOnRequest(context);
+            Guid userId = _tokenValidator.ValidateTokenAndTakeUserIdInToken(token);
 
-            var user = await _validateUser.Validate(result);
+            var result = await _validateUser.VerifyIfUserExistAndIsActive(userId);
 
-            if (user == false)
+            if (result == false)
             {
                 throw new Exception("User não autorizado");
 

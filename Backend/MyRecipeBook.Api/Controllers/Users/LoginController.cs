@@ -9,7 +9,7 @@ namespace MyRecipeBook.Api.Controllers.Users
 {
     [Route("user/login")]
     [ApiController]
-    public class UserLoginController : ControllerBase
+    public class LoginController : ControllerBase
     {
 
 

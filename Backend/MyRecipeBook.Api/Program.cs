@@ -1,12 +1,8 @@
+using Microsoft.OpenApi.Models;
 using MyRecipeBook.Api.Converters;
 using MyRecipeBook.Api.Middlewares;
-using MyRecipeBook.Infrastructure.Migrations;
-using Microsoft.OpenApi.Models;
-using System.Security.Cryptography.Xml;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
 using MyRecipeBook.Domain.Interfaces.TokenProvider;
+using MyRecipeBook.Infrastructure.Migrations;
 using MyRecipeBook.Infrastructure.Security.Token;
 
 var builder = WebApplication.CreateBuilder(args);
