@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MyRecipeBook.Domain.Entities.Enums
 {
-    public enum Time
+    public enum CookingTime
     {
         Less_Than_10_Minutes = 0,
         Between_10_And_30_Minutes = 1,

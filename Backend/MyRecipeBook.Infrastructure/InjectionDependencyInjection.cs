@@ -9,6 +9,7 @@ using MyRecipeBook.Domain.Interfaces.SecurityInterface.TokenValidator;
 using MyRecipeBook.Infrastructure.DataAccess;
 using MyRecipeBook.Infrastructure.DataAccess.Repositories;
 using MyRecipeBook.Infrastructure.DataAccess.Repositories.User;
+using MyRecipeBook.Infrastructure.Encrypter;
 using MyRecipeBook.Infrastructure.Security.Token;
 
 namespace Microsoft.AspNetCore.Builder
@@ -48,6 +49,7 @@ namespace Microsoft.AspNetCore.Builder
             service.AddScoped<ILoggedUser, LoggedUser>();
             service.AddScoped<IUnityOfWork, UnityOfWork>();
             service.AddScoped<IChageUserPasswordRepository,  ChageUserPasswordRepository>();
+            service.AddScoped<IEncrypterData, EncrypterData>();
         }
 
         private static void AddTokens(IServiceCollection service, IConfiguration configuration)

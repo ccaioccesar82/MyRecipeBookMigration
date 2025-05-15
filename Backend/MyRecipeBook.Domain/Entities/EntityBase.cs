@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MyRecipeBook.Domain.Entities
+﻿namespace MyRecipeBook.Domain.Entities
 {
     public abstract class EntityBase
     {
@@ -13,6 +7,11 @@ namespace MyRecipeBook.Domain.Entities
         public bool Active { get; protected set; } = true;
 
 
-      
+        public virtual void SetActivate(bool activate)
+        {
+            Active = activate;
+
+        }
+
     }
 }

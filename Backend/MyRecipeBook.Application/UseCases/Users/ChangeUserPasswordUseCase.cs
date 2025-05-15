@@ -1,7 +1,7 @@
-﻿using MyRecipeBook.Application.Encrypter;
-using MyRecipeBook.Application.FluentValidation.User;
+﻿using MyRecipeBook.Application.FluentValidation.User;
 using MyRecipeBook.Application.UseCases.Interfaces.UserUseCaseInterface;
 using MyRecipeBook.Communication.Request.Users;
+using MyRecipeBook.Domain.Interfaces.Encrypter;
 using MyRecipeBook.Domain.Interfaces.RepositoryInterfaces;
 using MyRecipeBook.Domain.Interfaces.RepositoryInterfaces.Users;
 using MyRecipeBook.Domain.Interfaces.RepositoryInterfaces.Users.Logger;
@@ -13,26 +13,28 @@ namespace MyRecipeBook.Application.UseCases.Users
     {
 
         private readonly ILoggedUser _loggeduser;
-        private IChageUserPasswordRepository _repository;
+        private readonly IChageUserPasswordRepository _repository;
         private readonly IUnityOfWork _unityOfWork;
+        private readonly IEncrypterData _encrypter;
 
         public ChangeUserPasswordUseCase(ILoggedUser loggeduser, 
-            IChageUserPasswordRepository repository, IUnityOfWork unityOfWork)
+            IChageUserPasswordRepository repository, IUnityOfWork unityOfWork, IEncrypterData encrypter)
         {
             _loggeduser = loggeduser;
             _repository = repository;
             _unityOfWork = unityOfWork;
+            _encrypter = encrypter;
         }
 
         public async Task Execute(ChangeUserPasswordRequestJson request)
         {
             var userResult =  await _loggeduser.FindUserByToken();
 
-            var oldPassword = EncrypterPassword.hashPassword(request.OldPassword);
+            var oldPassword = _encrypter.hashData(request.OldPassword);
 
             await Validate(userResult.Id, oldPassword, request);
 
-            var newPassword = EncrypterPassword.hashPassword(request.NewPassword);
+            var newPassword = _encrypter.hashData(request.NewPassword);
 
             await _repository.UpdateUser(userResult.Id, oldPassword, newPassword);
 

@@ -4,16 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MyRecipeBook.Domain.Entities.Recipe
+namespace MyRecipeBook.Domain.Entities.RecipeEntities
 {
-    public class Step
+    public class Instruction : EntityBase
     {
-        public int Id { get; set; }
-        public int StepNumber { get; set; }
+        public int Step { get; set; }
         public string ToDo { get; set; } = string.Empty;
 
         public Guid RecipeID { get; set; }
-        public Recipe Recipe { get; set; }
+        public required Recipe Recipe { get; set; }
 
     }
 }

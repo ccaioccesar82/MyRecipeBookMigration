@@ -10,6 +10,7 @@ using MyRecipeBook.Application.UseCases.Interfaces.UserUseCaseInterface;
 using MyRecipeBook.Domain.Interfaces.RepositoryInterfaces;
 using MyRecipeBook.Communication.Response.Token;
 using MyRecipeBook.Domain.Interfaces.SecurityInterface;
+using MyRecipeBook.Domain.Interfaces.Encrypter;
 
 
 namespace MyRecipeBook.Application.UseCases.Users
@@ -21,14 +22,17 @@ namespace MyRecipeBook.Application.UseCases.Users
         private IMapper _mapper;
         private IUnityOfWork _unityOfWork;
         private ITokenGenerator _tokenGenerator;
+        private readonly IEncrypterData _encrypter;
 
 
-        public UserCreationUseCase(IUserRepository iuserRepository, IMapper mapper, IUnityOfWork unityOfWork, ITokenGenerator tokenGenerator)
+        public UserCreationUseCase(IUserRepository iuserRepository, IMapper mapper, IUnityOfWork unityOfWork, 
+            ITokenGenerator tokenGenerator, IEncrypterData encrypter)
         {
             _iuserRepository = iuserRepository;
             _mapper = mapper;
             _unityOfWork = unityOfWork;
             _tokenGenerator = tokenGenerator;
+            _encrypter = encrypter;
         }
 
         public async Task<UserCreationResponseJson> Execute(UserCreationRequest request)
@@ -44,7 +48,7 @@ namespace MyRecipeBook.Application.UseCases.Users
 
             //Faz um hash na senha
 
-            var hashPassword = EncrypterPassword.hashPassword(request.Password);
+            var hashPassword = _encrypter.hashData(request.Password);
             user.SetPassword(hashPassword);
 
             //salva no banco de dados

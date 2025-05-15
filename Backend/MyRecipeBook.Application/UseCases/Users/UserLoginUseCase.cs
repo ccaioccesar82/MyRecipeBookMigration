@@ -1,28 +1,30 @@
 ﻿using MyRecipeBook.Communication.Request.Users;
 using MyRecipeBook.Domain.Interfaces.RepositoryInterfaces.Users;
-using MyRecipeBook.Application.Encrypter;
 using MyRecipeBook.Application.UseCases.Interfaces.UserUseCaseInterface;
 using MyRecipeBook.Domain.Interfaces.SecurityInterface;
 using MyRecipeBook.Communication.Response.Users;
 using MyRecipeBook.Communication.Response.Token;
+using MyRecipeBook.Domain.Interfaces.Encrypter;
 
 namespace MyRecipeBook.Application.UseCases.Users
 {
     public class UserLoginUseCase : IUserLoginUseCase
     {
-        private IUserLoginRepository _userLoginRepository;
-        private ITokenGenerator _tokenGenerator;
+        private readonly IUserLoginRepository _userLoginRepository;
+        private readonly ITokenGenerator _tokenGenerator;
+        private readonly IEncrypterData _encrypter;
 
-        public UserLoginUseCase(IUserLoginRepository userLoginRepository, ITokenGenerator tokenGenerator)
+        public UserLoginUseCase(IUserLoginRepository userLoginRepository, ITokenGenerator tokenGenerator, IEncrypterData encrypter)
         {
             _userLoginRepository = userLoginRepository;
             _tokenGenerator = tokenGenerator;
+            _encrypter = encrypter;
         }
 
 
         public async Task<UserLoginResponseJson> Execute(UserRequestLogin request)
         {
-            var hashedPassword = EncrypterPassword.hashPassword(request.Password);
+            var hashedPassword = _encrypter.hashData(request.Password);
 
             var userResult = await _userLoginRepository.SeachUserByEmailAndPassword(request.Email, hashedPassword);
 

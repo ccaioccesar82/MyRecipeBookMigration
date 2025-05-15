@@ -1,17 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
+using MyRecipeBook.Domain.Interfaces.Encrypter;
 
-namespace MyRecipeBook.Application.Encrypter
+namespace MyRecipeBook.Infrastructure.Encrypter
 {
-    public class EncrypterPassword
+    public class EncrypterData : IEncrypterData
     {
 
 
-        public static string hashPassword(string password)
+        public string hashData(string password)
         {
             byte[] sourceBytes = Encoding.UTF8.GetBytes(password);
             byte[] hashBytes = SHA512.HashData(sourceBytes);
@@ -20,5 +17,6 @@ namespace MyRecipeBook.Application.Encrypter
             return hash;
 
         }
+
     }
 }
