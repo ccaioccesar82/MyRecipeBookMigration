@@ -12,7 +12,7 @@ namespace MyRecipeBook.Domain.Entities.RecipeEntities
         public string ToDo { get; set; } = string.Empty;
 
         public Guid RecipeID { get; set; }
-        public Recipe Recipe { get; set; }
+        public Recipe? Recipe { get; set; }
 
     }
 }

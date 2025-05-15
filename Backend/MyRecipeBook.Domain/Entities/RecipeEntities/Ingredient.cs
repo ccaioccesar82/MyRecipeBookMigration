@@ -10,6 +10,6 @@ namespace MyRecipeBook.Domain.Entities.RecipeEntities
     {
         public string Name { get; set; } = string.Empty;
         public Guid RecipeID { get; set; }
-        public Recipe Recipe { get; set; }
+        public Recipe? Recipe { get; set; }
     }
 }

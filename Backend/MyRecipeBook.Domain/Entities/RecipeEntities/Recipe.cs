@@ -13,7 +13,7 @@ namespace MyRecipeBook.Domain.Entities.RecipeEntities
         public Enums.Difficulty? Difficulty { get; set; }
 
         public Guid UsersID { get; set; }
-        public Users User { get; set; }
+        public Users? User { get; set; }
 
 
     }

@@ -11,7 +11,7 @@ namespace MyRecipeBook.Api.Controllers.Recipes
     {
         [HttpPost]
         [AutheticatedUser]
-        public IActionResult Create([FromBody]RecipeCreateJson request)
+        public IActionResult Create([FromBody]RecipeRequestJson request)
         {
 
             return Ok();
