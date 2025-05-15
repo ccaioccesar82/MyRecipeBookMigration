@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using MyRecipeBook.Domain.Interfaces.Encrypter;
 using MyRecipeBook.Domain.Interfaces.RepositoryInterfaces;
 using MyRecipeBook.Domain.Interfaces.RepositoryInterfaces.Users;
 using MyRecipeBook.Domain.Interfaces.RepositoryInterfaces.Users.Logger;
@@ -9,7 +10,7 @@ using MyRecipeBook.Domain.Interfaces.SecurityInterface.TokenValidator;
 using MyRecipeBook.Infrastructure.DataAccess;
 using MyRecipeBook.Infrastructure.DataAccess.Repositories;
 using MyRecipeBook.Infrastructure.DataAccess.Repositories.User;
-using MyRecipeBook.Infrastructure.Encrypter;
+using MyRecipeBook.Infrastructure.Security.Encrypter;
 using MyRecipeBook.Infrastructure.Security.Token;
 
 namespace Microsoft.AspNetCore.Builder

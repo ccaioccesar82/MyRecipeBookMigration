@@ -10,6 +10,6 @@ namespace MyRecipeBook.Domain.Entities.RecipeEntities
     {
         public Enums.CookingTime Time {  get; set; }
         public Guid RecipeID { get; set; }
-        public required Recipe Recipe { get; set; }
+        public Recipe Recipe { get; set; }
     }
 }

@@ -1,16 +1,13 @@
-﻿using MyRecipeBook.Application.FluentValidation.User;
-using MyRecipeBook.Communication.Request.Users;
-using MyRecipeBook.Communication.Response.Users;
-using MyRecipeBook.Application.AutoMapperService;
-using MyRecipeBook.Domain.Entities.User;
-using MyRecipeBook.Application.Encrypter;
-using MyRecipeBook.Domain.Interfaces.RepositoryInterfaces.Users;
-using AutoMapper;
+﻿using AutoMapper;
+using MyRecipeBook.Application.FluentValidation.User;
 using MyRecipeBook.Application.UseCases.Interfaces.UserUseCaseInterface;
-using MyRecipeBook.Domain.Interfaces.RepositoryInterfaces;
+using MyRecipeBook.Communication.Request.Users;
 using MyRecipeBook.Communication.Response.Token;
-using MyRecipeBook.Domain.Interfaces.SecurityInterface;
+using MyRecipeBook.Communication.Response.Users;
 using MyRecipeBook.Domain.Interfaces.Encrypter;
+using MyRecipeBook.Domain.Interfaces.RepositoryInterfaces;
+using MyRecipeBook.Domain.Interfaces.RepositoryInterfaces.Users;
+using MyRecipeBook.Domain.Interfaces.SecurityInterface;
 
 
 namespace MyRecipeBook.Application.UseCases.Users

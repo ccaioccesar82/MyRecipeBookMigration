@@ -2,7 +2,7 @@
 using System.Text;
 using MyRecipeBook.Domain.Interfaces.Encrypter;
 
-namespace MyRecipeBook.Infrastructure.Encrypter
+namespace MyRecipeBook.Infrastructure.Security.Encrypter
 {
     public class EncrypterData : IEncrypterData
     {
@@ -12,7 +12,7 @@ namespace MyRecipeBook.Infrastructure.Encrypter
         {
             byte[] sourceBytes = Encoding.UTF8.GetBytes(password);
             byte[] hashBytes = SHA512.HashData(sourceBytes);
-            string hash = BitConverter.ToString(hashBytes).Replace("-", String.Empty);
+            string hash = BitConverter.ToString(hashBytes).Replace("-", string.Empty);
 
             return hash;
 

@@ -10,8 +10,10 @@ namespace MyRecipeBook.Api.Controllers.Users
     [ApiController]
     public class Users : ControllerBase
     {
+    
         [HttpPost]
         [ProducesResponseType(typeof(UserCreationResponseJson), StatusCodes.Status201Created)]
+       
         public async Task<IActionResult> Register(
            [FromServices] IUserCreateUserCase usecase,
            [FromBody] UserCreationRequest request)
