@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using MyRecipeBook.Domain.Entities.User;
+using MyRecipeBook.Domain.Entities.UserEntities;
 using MyRecipeBook.Domain.Interfaces.RepositoryInterfaces.Users;
 
 namespace MyRecipeBook.Infrastructure.DataAccess.Repositories.User
@@ -14,12 +14,12 @@ namespace MyRecipeBook.Infrastructure.DataAccess.Repositories.User
             _dbContext = dbContext;
         }
 
-        public void UnctivateUser(Users userResult)
+        public void UnctivateUser(Domain.Entities.UserEntities.User userResult)
         {
             userResult.SetActivate(false);
         }
 
-        public async Task<Users?> SearchUserById(Guid id)
+        public async Task<Domain.Entities.UserEntities.User?> SearchUserById(Guid id)
         {
             return await _dbContext.User.SingleOrDefaultAsync(u => u.Id == id);
         }

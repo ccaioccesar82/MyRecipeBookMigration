@@ -1,9 +1,11 @@
-﻿using AutoMapper;
+﻿using Mapster;
+using MapsterMapper;
 using MyRecipeBook.Application.FluentValidation.User;
 using MyRecipeBook.Application.UseCases.Interfaces.UserUseCaseInterface;
 using MyRecipeBook.Communication.Request.Users;
 using MyRecipeBook.Communication.Response.Token;
 using MyRecipeBook.Communication.Response.Users;
+using MyRecipeBook.Domain.Entities.UserEntities;
 using MyRecipeBook.Domain.Interfaces.Encrypter;
 using MyRecipeBook.Domain.Interfaces.RepositoryInterfaces;
 using MyRecipeBook.Domain.Interfaces.RepositoryInterfaces.Users;
@@ -41,7 +43,7 @@ namespace MyRecipeBook.Application.UseCases.Users
 
             //Faz um mapeamento com o AutoMapper
 
-            var user = _mapper.Map<Domain.Entities.User.Users>(request);
+            var user = request.Adapt<User>();
 
             //Faz um hash na senha
 

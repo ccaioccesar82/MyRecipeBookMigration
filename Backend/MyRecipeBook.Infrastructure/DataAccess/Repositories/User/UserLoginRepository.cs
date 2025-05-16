@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
-using MyRecipeBook.Domain.Entities.User;
+using MyRecipeBook.Domain.Entities.UserEntities;
 using MyRecipeBook.Domain.Interfaces.RepositoryInterfaces.Users;
 
 namespace MyRecipeBook.Infrastructure.DataAccess.Repositories.User
@@ -18,7 +18,7 @@ namespace MyRecipeBook.Infrastructure.DataAccess.Repositories.User
             _dbContext = dbContext;
         }
 
-        public async Task<Users?> SeachUserByEmailAndPassword(string email, string password)
+        public async Task<Domain.Entities.UserEntities.User?> SeachUserByEmailAndPassword(string email, string password)
         {
             var result = await _dbContext.User.AsNoTracking()
                 .SingleOrDefaultAsync(u => u.Email == email && u.Password == password);

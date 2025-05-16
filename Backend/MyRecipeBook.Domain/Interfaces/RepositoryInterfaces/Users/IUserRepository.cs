@@ -2,7 +2,7 @@
 
 public interface IUserRepository
 {
-    public Task CreateUser(Entities.User.Users user);
+    public Task CreateUser(Entities.UserEntities.User user);
     public Task<bool> SearchUserWithExistedEmail(string email);
 }
 

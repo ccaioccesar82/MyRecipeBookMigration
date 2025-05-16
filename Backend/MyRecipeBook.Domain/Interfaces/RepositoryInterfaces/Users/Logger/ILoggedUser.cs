@@ -2,6 +2,6 @@
 {
     public interface ILoggedUser
     {
-        public Task<Entities.User.Users> FindUserByToken();
+        public Task<Entities.UserEntities.User> FindUserByToken();
     }
 }

@@ -2,9 +2,9 @@
 using MyRecipeBook.Domain.Entities;
 using MyRecipeBook.Domain.Entities.RecipeEntities;
 
-namespace MyRecipeBook.Domain.Entities.User
+namespace MyRecipeBook.Domain.Entities.UserEntities
 {
-    public class Users : EntityBase
+    public class User : EntityBase
     {
         public string Name { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;

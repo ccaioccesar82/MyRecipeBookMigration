@@ -1,6 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using MyRecipeBook.Api.Attributes;
+﻿using Microsoft.AspNetCore.Mvc;
+using MyRecipeBook.Application.UseCases.Interfaces.Recipe;
 using MyRecipeBook.Communication.Request.Recipes;
 
 namespace MyRecipeBook.Api.Controllers.Recipes
@@ -9,12 +8,22 @@ namespace MyRecipeBook.Api.Controllers.Recipes
     [ApiController]
     public class RecipeController : ControllerBase
     {
+        private readonly IRecipeCreationUseCase _recipeCreate;
+
+        public RecipeController(IRecipeCreationUseCase recipeCreate)
+        {
+            _recipeCreate = recipeCreate;
+        }
+
+
         [HttpPost]
-        [AutheticatedUser]
         public IActionResult Create([FromBody]RecipeRequestJson request)
         {
+            var result = _recipeCreate.Execute(request);
 
-            return Ok();
+            
+
+            return Ok(result);
         }
     }
 }

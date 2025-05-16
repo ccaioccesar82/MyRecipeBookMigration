@@ -8,8 +8,8 @@ namespace MyRecipeBook.Domain.Interfaces.RepositoryInterfaces.Users
 {
     public interface IUserUnactivateRepository
     {
-        public Task<Entities.User.Users?> SearchUserById(Guid id);
-        public void UnctivateUser(Entities.User.Users userResult);
+        public Task<Entities.UserEntities.User?> SearchUserById(Guid id);
+        public void UnctivateUser(Entities.UserEntities.User userResult);
 
     }
 }

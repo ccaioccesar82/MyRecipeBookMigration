@@ -1,4 +1,4 @@
-﻿using MyRecipeBook.Domain.Entities.User;
+﻿using MyRecipeBook.Domain.Entities.UserEntities;
 
 namespace MyRecipeBook.Domain.Entities.RecipeEntities
 {
@@ -8,12 +8,12 @@ namespace MyRecipeBook.Domain.Entities.RecipeEntities
 
         public IList<Ingredient> Ingredients { get; set; } = new List<Ingredient>();
         public IList<Instruction> Instructions { get; set; } = new List<Instruction>();
-        public IList<DishType> DishType { get; set; } = new List<DishType>();
+        public IList<Enums.DishType> DishType { get; set; } = new List<Enums.DishType>();
         public Enums.CookingTime? Time { get; set; }
         public Enums.Difficulty? Difficulty { get; set; }
 
         public Guid UsersID { get; set; }
-        public Users? User { get; set; }
+        public User? User { get; set; }
 
 
     }

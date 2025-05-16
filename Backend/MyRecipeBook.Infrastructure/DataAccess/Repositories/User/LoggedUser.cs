@@ -1,7 +1,7 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using Microsoft.EntityFrameworkCore;
-using MyRecipeBook.Domain.Entities.User;
+using MyRecipeBook.Domain.Entities.UserEntities;
 using MyRecipeBook.Domain.Interfaces.TokenProvider;
 using MyRecipeBook.Domain.Interfaces.RepositoryInterfaces.Users.Logger;
 
@@ -20,7 +20,7 @@ namespace MyRecipeBook.Infrastructure.DataAccess.Repositories.User
         }
 
 
-        public async Task<Users> FindUserByToken()
+        public async Task<Domain.Entities.UserEntities.User> FindUserByToken()
         {
             string token = _tokenProvider.Value();
 

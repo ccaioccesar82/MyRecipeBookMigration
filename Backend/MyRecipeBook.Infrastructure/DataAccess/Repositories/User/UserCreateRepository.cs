@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using MyRecipeBook.Domain.Entities.User;
+using MyRecipeBook.Domain.Entities.UserEntities;
 using MyRecipeBook.Domain.Interfaces.RepositoryInterfaces.Users;
 
 namespace MyRecipeBook.Infrastructure.DataAccess.Repositories.User
@@ -15,7 +15,7 @@ namespace MyRecipeBook.Infrastructure.DataAccess.Repositories.User
         }
 
 
-        public async Task CreateUser(Users user)
+        public async Task CreateUser(Domain.Entities.UserEntities.User user)
         {
            await _dbContext.User.AddAsync(user);
         }

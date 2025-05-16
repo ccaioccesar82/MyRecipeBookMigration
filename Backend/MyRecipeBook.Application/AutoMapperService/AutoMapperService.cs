@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+﻿/*using AutoMapper;
 using MyRecipeBook.Communication.Request.Users;
 using MyRecipeBook.Domain.Entities.User;
 
@@ -21,3 +21,4 @@ namespace MyRecipeBook.Application.AutoMapperService
 
     }
 }
+*/
