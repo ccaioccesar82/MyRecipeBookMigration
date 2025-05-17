@@ -28,6 +28,15 @@ namespace MyRecipeBook.Application.UseCases.RecipeUseCases
 
             //pega a lista de instruções e valida a ordem dos steps
             var instructions = request.Instructions;
+            instructions.OrderBy(i => i.Step);
+
+            foreach (var instruction in instructions)
+            {
+                for (var i = ; i < instructions.Count; i++)
+                {
+                    instruction.Step = i;
+                }
+            }
 
             return recipe;
         }
