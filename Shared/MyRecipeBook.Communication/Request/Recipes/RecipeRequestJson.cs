@@ -4,7 +4,7 @@ namespace MyRecipeBook.Communication.Request.Recipes
     public class RecipeRequestJson
     {
         public string Title { get; set; } = string.Empty;
-        public IList<IngredientRequestJson> Ingredients { get; set; } = new List<IngredientRequestJson>();
+        public IList<string> Ingredients { get; set; } = new List<string>();
 
         public IList<InstructionCreateRequestJson> Instructions { get; set; } = new List<InstructionCreateRequestJson>();
 

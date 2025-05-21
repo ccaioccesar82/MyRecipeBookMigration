@@ -8,7 +8,7 @@ namespace MyRecipeBook.Domain.Entities.RecipeEntities
 
         public IList<Ingredient> Ingredients { get; set; } = new List<Ingredient>();
         public IList<Instruction> Instructions { get; set; } = new List<Instruction>();
-        public IList<Enums.DishType> DishType { get; set; } = new List<Enums.DishType>();
+        public IList<DishType> DishType { get; set; } = new List<DishType>();
         public Enums.CookingTime? Time { get; set; }
         public Enums.Difficulty? Difficulty { get; set; }
 

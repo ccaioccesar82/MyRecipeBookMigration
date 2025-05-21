@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MyRecipeBook.Domain.Interfaces.RepositoryInterfaces;
+﻿using MyRecipeBook.Domain.Interfaces.RepositoryInterfaces;
 
 namespace MyRecipeBook.Infrastructure.DataAccess.Repositories
 {

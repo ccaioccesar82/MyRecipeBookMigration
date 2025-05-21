@@ -1,8 +1,13 @@
 ﻿using Mapster;
 using MapsterMapper;
+using MyRecipeBook.Application.FluentValidation.Recipes;
 using MyRecipeBook.Application.UseCases.Interfaces.Recipe;
 using MyRecipeBook.Communication.Request.Recipes;
+using MyRecipeBook.Communication.Response.Recipes;
 using MyRecipeBook.Domain.Entities.RecipeEntities;
+using MyRecipeBook.Domain.Interfaces.RepositoryInterfaces;
+using MyRecipeBook.Domain.Interfaces.RepositoryInterfaces.Recipes;
+using MyRecipeBook.Domain.Interfaces.RepositoryInterfaces.Users.Logger;
 
 namespace MyRecipeBook.Application.UseCases.RecipeUseCases
 {
@@ -10,24 +15,43 @@ namespace MyRecipeBook.Application.UseCases.RecipeUseCases
     {
 
         private readonly IMapper _mapper;
+        private readonly ILoggedUser _loggedUser;
+        private readonly IRecipeWriteOnlyRepository _writeOnly;
+        private readonly IUnityOfWork _unityOfWork;
 
+        public RecipeCreationUseCase(IMapper mapper, 
+            ILoggedUser loggedUser,
+            IRecipeWriteOnlyRepository writeOnly,
+            IUnityOfWork unityOfWork)
 
-        public RecipeCreationUseCase(IMapper mapper)
         {
-
             _mapper = mapper;
+            _loggedUser = loggedUser;
+            _writeOnly = writeOnly;
+            _unityOfWork = unityOfWork;
         }
 
 
-        public Recipe Execute(RecipeRequestJson request)
+        public async Task<RecipeCreationResponseJson> Execute(RecipeRequestJson request)
         {
+            var user = await _loggedUser.FindUserByToken();
             //Valida os campos da receita
+            Validate(request);
 
-
-
-            //Faz o mapeamento da entidade receita 
+            //Faz o mapeamento da entidade receita
             Recipe recipe = request.Adapt<Recipe>();
+            recipe.UsersID = user.Id;
 
+            for (int i = 0; i < request.Ingredients.Count; i++) {
+
+                recipe.Ingredients.Add(new Ingredient
+                {
+                    Name = request.Ingredients.ElementAt(i)
+
+                });
+            }
+
+            //Atribui o userId logado à essa receita
 
             /* Pega a lista de instruções e valida a ordem dos steps. Se o user passar os steps todos bagunçados,
             o sistema irá ordenar do menor número para o maior e depois atribuir os steps por ordem de 1,2,3...
@@ -44,7 +68,28 @@ namespace MyRecipeBook.Application.UseCases.RecipeUseCases
 
             recipe.Instructions = instructions.Adapt<IList<Instruction>>();
 
-            return recipe;
+            await _writeOnly.CreateRecipe(recipe);
+
+            await _unityOfWork.Commit();
+
+            return new RecipeCreationResponseJson
+            {
+                Title = recipe.Title
+            };
+
+        }
+
+        private void Validate(RecipeRequestJson request)
+        {
+            var validator = new RecipeCreationValidator();
+
+            var result = validator.Validate(request);
+
+            if (!result.IsValid)
+            {
+                throw new Exception("Erro na validação");
+
+            }
         }
 
     }

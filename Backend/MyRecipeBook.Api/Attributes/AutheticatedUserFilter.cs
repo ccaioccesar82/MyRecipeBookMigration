@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.Filters;
+using MyRecipeBook.Domain.Interfaces.RepositoryInterfaces.Users;
 using MyRecipeBook.Domain.Interfaces.SecurityInterface.TokenValidator;
 
 namespace MyRecipeBook.Api.Attributes
@@ -7,9 +8,9 @@ namespace MyRecipeBook.Api.Attributes
     {
 
         private readonly ITokenValidator _tokenValidator;
-        private readonly IValidateUserInAttribute _validateUser;
+        private readonly IReadOnlyRepository _validateUser;
 
-        public AutheticatedUserFilter(ITokenValidator tokenValidator, IValidateUserInAttribute validateUser)
+        public AutheticatedUserFilter(ITokenValidator tokenValidator, IReadOnlyRepository validateUser)
         {
             _tokenValidator = tokenValidator;
             _validateUser = validateUser;
@@ -20,9 +21,9 @@ namespace MyRecipeBook.Api.Attributes
             string token = TokenOnRequest(context);
             Guid userId = _tokenValidator.ValidateTokenAndTakeUserIdInToken(token);
 
-            var result = await _validateUser.VerifyIfUserExistAndIsActive(userId);
+            var result = await _validateUser.SearchUserById(userId);
 
-            if (result == false)
+            if (result == null)
             {
                 throw new Exception("User não autorizado");
 

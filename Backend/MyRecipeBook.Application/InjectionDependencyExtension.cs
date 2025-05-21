@@ -22,23 +22,9 @@ namespace Microsoft.AspNetCore.Builder
         public static void AddApplication(this IServiceCollection service)
         {
             addUseCases(service);
-            //addAutoMapper(service);
             RegisterMaps(service);
         }
 
-        /*
-        private static void addAutoMapper (IServiceCollection service)
-        {
-            var autoMapper = new AutoMapper.MapperConfiguration(options =>
-            {
-
-                options.AddProfile(new AutoMapperValidator());
-            }).CreateMapper();
-
-            service.AddScoped(option =>  autoMapper);
-
-        }
-        */
 
         private static void addUseCases(IServiceCollection service)
         {
@@ -62,11 +48,13 @@ namespace Microsoft.AspNetCore.Builder
 
 
             TypeAdapterConfig<RecipeRequestJson, Recipe>
-            .NewConfig();
+            .NewConfig()
+            .Map(dest => dest.DishType, source => source.DishType.Distinct())
+            .Ignore(dest => dest.Ingredients)
+            .Ignore(dest => dest.UsersID);
 
             TypeAdapterConfig<InstructionCreateRequestJson, Instruction>
               .NewConfig();
-            
 
             TypeAdapterConfig.GlobalSettings.Scan(Assembly.GetExecutingAssembly());
         }

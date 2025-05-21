@@ -1,6 +1,6 @@
 ﻿using Mapster;
 using MapsterMapper;
-using MyRecipeBook.Application.FluentValidation.User;
+using MyRecipeBook.Application.FluentValidation.Users;
 using MyRecipeBook.Application.UseCases.Interfaces.UserUseCaseInterface;
 using MyRecipeBook.Communication.Request.Users;
 using MyRecipeBook.Communication.Response.Token;
@@ -17,21 +17,26 @@ namespace MyRecipeBook.Application.UseCases.Users
     public class UserCreationUseCase : IUserCreateUserCase
     {
 
-        private IUserRepository _iuserRepository;
+        private IWriteOnlyRepository _writeOnly;
+        private readonly IReadOnlyRepository _readOnly;
         private IMapper _mapper;
         private IUnityOfWork _unityOfWork;
         private ITokenGenerator _tokenGenerator;
         private readonly IEncrypterData _encrypter;
 
 
-        public UserCreationUseCase(IUserRepository iuserRepository, IMapper mapper, IUnityOfWork unityOfWork, 
+        public UserCreationUseCase(IWriteOnlyRepository writeOnly, 
+            IReadOnlyRepository readOnly, 
+            IMapper mapper, 
+            IUnityOfWork unityOfWork, 
             ITokenGenerator tokenGenerator, IEncrypterData encrypter)
         {
-            _iuserRepository = iuserRepository;
+            _writeOnly = writeOnly;
             _mapper = mapper;
             _unityOfWork = unityOfWork;
             _tokenGenerator = tokenGenerator;
             _encrypter = encrypter;
+            _readOnly = readOnly;
         }
 
         public async Task<UserCreationResponseJson> Execute(UserCreationRequest request)
@@ -52,7 +57,7 @@ namespace MyRecipeBook.Application.UseCases.Users
 
             //salva no banco de dados
 
-            await _iuserRepository.CreateUser(user);
+            await _writeOnly.CreateUser(user);
 
             await _unityOfWork.Commit();
 
@@ -84,7 +89,7 @@ namespace MyRecipeBook.Application.UseCases.Users
 
         private async Task ValidateEmail(string email) // Verifica se já existe um usuário com o mesmo email
         {
-            var result = await _iuserRepository.SearchUserWithExistedEmail(email);
+            var result = await _readOnly.SearchUserWithExistedEmail(email);
 
             if (result == true)
             {

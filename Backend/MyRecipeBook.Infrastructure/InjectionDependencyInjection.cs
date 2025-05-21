@@ -3,12 +3,14 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MyRecipeBook.Domain.Interfaces.Encrypter;
 using MyRecipeBook.Domain.Interfaces.RepositoryInterfaces;
+using MyRecipeBook.Domain.Interfaces.RepositoryInterfaces.Recipes;
 using MyRecipeBook.Domain.Interfaces.RepositoryInterfaces.Users;
 using MyRecipeBook.Domain.Interfaces.RepositoryInterfaces.Users.Logger;
 using MyRecipeBook.Domain.Interfaces.SecurityInterface;
 using MyRecipeBook.Domain.Interfaces.SecurityInterface.TokenValidator;
 using MyRecipeBook.Infrastructure.DataAccess;
 using MyRecipeBook.Infrastructure.DataAccess.Repositories;
+using MyRecipeBook.Infrastructure.DataAccess.Repositories.RecipeRepository;
 using MyRecipeBook.Infrastructure.DataAccess.Repositories.User;
 using MyRecipeBook.Infrastructure.Security.Encrypter;
 using MyRecipeBook.Infrastructure.Security.Token;
@@ -43,14 +45,12 @@ namespace Microsoft.AspNetCore.Builder
         private static void addRepositories(IServiceCollection service)
         {
 
-            service.AddScoped<IUserRepository, UserCreateRepository>();
-            service.AddScoped<IUserUnactivateRepository, UserUncativateRepository>();
-            service.AddScoped<IUserLoginRepository, UserLoginRepository>();
-            service.AddScoped<IValidateUserInAttribute, ValidateUserInAttribute>();
+            service.AddScoped<IWriteOnlyRepository, WriteOnlyRepository>();
             service.AddScoped<ILoggedUser, LoggedUser>();
             service.AddScoped<IUnityOfWork, UnityOfWork>();
-            service.AddScoped<IChageUserPasswordRepository,  ChageUserPasswordRepository>();
+            service.AddScoped<IReadOnlyRepository,  ReadOnlyRepository>();
             service.AddScoped<IEncrypterData, EncrypterData>();
+            service.AddScoped<IRecipeWriteOnlyRepository, RecipeWriteOnlyRepository>();
         }
 
         private static void AddTokens(IServiceCollection service, IConfiguration configuration)

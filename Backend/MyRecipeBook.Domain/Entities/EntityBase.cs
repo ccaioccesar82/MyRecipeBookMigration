@@ -2,7 +2,7 @@
 {
     public abstract class EntityBase
     {
-        public Guid Id { get; set; } = Guid.NewGuid();
+        public Guid Id { get; set; }
         public DateTime CreatedOn { get; private set; } = DateTime.UtcNow;
         public bool Active { get; protected set; } = true;
 

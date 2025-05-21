@@ -10,15 +10,18 @@ namespace MyRecipeBook.Application.UseCases.Users
 {
     public class UserLoginUseCase : IUserLoginUseCase
     {
-        private readonly IUserLoginRepository _userLoginRepository;
+        private readonly IReadOnlyRepository _readOnly;
         private readonly ITokenGenerator _tokenGenerator;
         private readonly IEncrypterData _encrypter;
 
-        public UserLoginUseCase(IUserLoginRepository userLoginRepository, ITokenGenerator tokenGenerator, IEncrypterData encrypter)
+        public UserLoginUseCase(IWriteOnlyRepository writeonly,
+            IReadOnlyRepository readOnly , ITokenGenerator tokenGenerator, 
+            IEncrypterData encrypter)
         {
-            _userLoginRepository = userLoginRepository;
             _tokenGenerator = tokenGenerator;
             _encrypter = encrypter;
+            _readOnly = readOnly;
+
         }
 
 
@@ -26,7 +29,7 @@ namespace MyRecipeBook.Application.UseCases.Users
         {
             var hashedPassword = _encrypter.hashData(request.Password);
 
-            var userResult = await _userLoginRepository.SeachUserByEmailAndPassword(request.Email, hashedPassword);
+            var userResult = await _readOnly.SeachUserByEmailAndPassword(request.Email, hashedPassword);
 
             if (userResult == null)
             {

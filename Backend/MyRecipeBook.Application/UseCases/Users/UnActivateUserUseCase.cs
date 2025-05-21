@@ -8,19 +8,21 @@ namespace MyRecipeBook.Application.UseCases.Users
     public class UnactivateUserUseCase : IUnactivateUserUseCase
     {
 
-        private IUserUnactivateRepository _userUnactivateRepository;
+        private readonly IWriteOnlyRepository _writeonly;
+        private readonly IReadOnlyRepository _readOnly;
         private IUnityOfWork _unityOfWork;
 
-        public UnactivateUserUseCase(IUserUnactivateRepository userRepository, IUnityOfWork unityOfWork)
+        public UnactivateUserUseCase(IWriteOnlyRepository writeonly, IReadOnlyRepository readOnly , IUnityOfWork unityOfWork)
         {
-            _userUnactivateRepository = userRepository;
             _unityOfWork = unityOfWork;
+            _writeonly = writeonly;
+            _readOnly = readOnly;
         }
 
 
         public async Task Execute(Guid id)
         {
-            var result = await _userUnactivateRepository.SearchUserById(id);
+            var result = await _readOnly.SearchUserById(id);
 
             if (result == null)
             {
@@ -28,7 +30,7 @@ namespace MyRecipeBook.Application.UseCases.Users
             }
             else
             {
-                _userUnactivateRepository.UnctivateUser(result);
+                _writeonly.UnctivateUser(result);
                 await _unityOfWork.Commit();
             }
 
