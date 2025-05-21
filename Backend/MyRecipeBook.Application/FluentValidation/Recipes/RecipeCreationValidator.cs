@@ -16,6 +16,7 @@ namespace MyRecipeBook.Application.FluentValidation.Recipes
             RuleFor(recipe => recipe.Difficulty).IsInEnum();
             RuleFor(recipe => recipe.Time).IsInEnum();
             RuleForEach(recipe => recipe.DishType).IsInEnum();
+            RuleForEach(recipe => recipe.Ingredients).NotEmpty();
 
             RuleForEach(recipe => recipe.Instructions).ChildRules(instruction =>
                 {

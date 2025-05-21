@@ -40,6 +40,7 @@ namespace MyRecipeBook.Application.UseCases.RecipeUseCases
 
             //Faz o mapeamento da entidade receita
             Recipe recipe = request.Adapt<Recipe>();
+            //Atribui o userId logado à essa receita
             recipe.UsersID = user.Id;
 
             for (int i = 0; i < request.Ingredients.Count; i++) {
@@ -51,9 +52,7 @@ namespace MyRecipeBook.Application.UseCases.RecipeUseCases
                 });
             }
 
-            //Atribui o userId logado à essa receita
-
-            /* Pega a lista de instruções e valida a ordem dos steps. Se o user passar os steps todos bagunçados,
+            /* Pega a lista de instruções e valida a ordem dos steps. Se o user passar os steps bagunçados,
             o sistema irá ordenar do menor número para o maior e depois atribuir os steps por ordem de 1,2,3...
             */
 
