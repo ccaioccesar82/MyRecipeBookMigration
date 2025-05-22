@@ -1,33 +1,30 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MyRecipeBook.Api.Attributes;
-using MyRecipeBook.Application.UseCases.Interfaces.Recipe;
+using MyRecipeBook.Application.UseCases.Interfaces.RecipeUseCase;
 using MyRecipeBook.Communication.Request.Recipes;
+using MyRecipeBook.Communication.Response.Recipes;
 
 namespace MyRecipeBook.Api.Controllers.Recipes
 {
-    [Route("recipe/create")]
+    
     [ApiController]
     [AutheticatedUser]
     public class RecipeController : ControllerBase
     {
-        private readonly IRecipeCreationUseCase _recipeCreate;
-
-        public RecipeController(IRecipeCreationUseCase recipeCreate)
-        {
-            _recipeCreate = recipeCreate;
-        }
-
-
+        [Route("recipe/create")]
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody]RecipeRequestJson request)
+        [ProducesResponseType(typeof(RecipeCreationResponseJson), StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> Create([FromBody]RecipeCreationRequestJson request,
+            [FromServices]IRecipeCreationUseCase recipeCreate)
         {
             try
             {
-                var result = await _recipeCreate.Execute(request);
+                var result = await recipeCreate.Execute(request);
 
 
 
-                return Ok(result);
+                return Created(string.Empty,result);
 
             }catch(Exception e)
             {
@@ -35,5 +32,26 @@ namespace MyRecipeBook.Api.Controllers.Recipes
                 return BadRequest(e);
             }
         }
+
+        [Route("recipe/filter")]
+        [HttpPost]
+        [ProducesResponseType(typeof(RecipeFilteredResponseJson),StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> Index([FromBody]RecipeFilterRequestJson request, [FromServices] IFilterRecipesUseCase usecase)
+        {
+            try
+            {
+                var result = await usecase.Execute(request);
+
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                return NotFound(e.Message);
+
+            }
+
+        }
+
     }
 }

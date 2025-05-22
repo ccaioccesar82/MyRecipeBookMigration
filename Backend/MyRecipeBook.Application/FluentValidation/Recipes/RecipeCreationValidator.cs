@@ -3,10 +3,8 @@ using MyRecipeBook.Communication.Request.Recipes;
 
 namespace MyRecipeBook.Application.FluentValidation.Recipes
 {
-    public class RecipeCreationValidator : AbstractValidator<RecipeRequestJson>
+    public class RecipeCreationValidator : AbstractValidator<RecipeCreationRequestJson>
     {
-
-
         public RecipeCreationValidator()
         {
 

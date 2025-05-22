@@ -1,7 +1,7 @@
 ﻿using Mapster;
 using MapsterMapper;
 using MyRecipeBook.Application.FluentValidation.Recipes;
-using MyRecipeBook.Application.UseCases.Interfaces.Recipe;
+using MyRecipeBook.Application.UseCases.Interfaces.RecipeUseCase;
 using MyRecipeBook.Communication.Request.Recipes;
 using MyRecipeBook.Communication.Response.Recipes;
 using MyRecipeBook.Domain.Entities.RecipeEntities;
@@ -32,7 +32,7 @@ namespace MyRecipeBook.Application.UseCases.RecipeUseCases
         }
 
 
-        public async Task<RecipeCreationResponseJson> Execute(RecipeRequestJson request)
+        public async Task<RecipeCreationResponseJson> Execute(RecipeCreationRequestJson request)
         {
             var user = await _loggedUser.FindUserByToken();
             //Valida os campos da receita
@@ -78,7 +78,7 @@ namespace MyRecipeBook.Application.UseCases.RecipeUseCases
 
         }
 
-        private void Validate(RecipeRequestJson request)
+        private void Validate(RecipeCreationRequestJson request)
         {
             var validator = new RecipeCreationValidator();
 

@@ -1,10 +1,10 @@
 ﻿using MyRecipeBook.Communication.Request.Recipes;
 using MyRecipeBook.Communication.Response.Recipes;
 
-namespace MyRecipeBook.Application.UseCases.Interfaces.Recipe
+namespace MyRecipeBook.Application.UseCases.Interfaces.RecipeUseCase
 {
     public interface IRecipeCreationUseCase
     {
-        public Task<RecipeCreationResponseJson> Execute(RecipeRequestJson request);
+        public Task<RecipeCreationResponseJson> Execute(RecipeCreationRequestJson request);
     }
 }

@@ -51,6 +51,7 @@ namespace Microsoft.AspNetCore.Builder
             service.AddScoped<IReadOnlyRepository,  ReadOnlyRepository>();
             service.AddScoped<IEncrypterData, EncrypterData>();
             service.AddScoped<IRecipeWriteOnlyRepository, RecipeWriteOnlyRepository>();
+            service.AddScoped<IReciReadOnlyRepository, ReciReadOnlyRepository>();
         }
 
         private static void AddTokens(IServiceCollection service, IConfiguration configuration)
