@@ -8,6 +8,7 @@ using MyRecipeBook.Domain.Entities.RecipeEntities;
 using MyRecipeBook.Domain.Interfaces.RepositoryInterfaces;
 using MyRecipeBook.Domain.Interfaces.RepositoryInterfaces.Recipes;
 using MyRecipeBook.Domain.Interfaces.RepositoryInterfaces.Users.Logger;
+using MyRecipeBook.Exception.ExceptionBase;
 
 namespace MyRecipeBook.Application.UseCases.RecipeUseCases
 {
@@ -86,8 +87,9 @@ namespace MyRecipeBook.Application.UseCases.RecipeUseCases
 
             if (!result.IsValid)
             {
-                throw new Exception("Erro na validação");
+                var errormessages = result.Errors.Select(e => e.ErrorMessage).ToList();
 
+                throw new ErrorOnValidationException(errormessages);
             }
         }
 

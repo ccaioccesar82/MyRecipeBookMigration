@@ -1,5 +1,6 @@
 using Microsoft.OpenApi.Models;
 using MyRecipeBook.Api.Converters;
+using MyRecipeBook.Api.ExceptionFilters;
 using MyRecipeBook.Api.Middlewares;
 using MyRecipeBook.Domain.Interfaces.TokenProvider;
 using MyRecipeBook.Infrastructure.Migrations;
@@ -12,6 +13,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers().AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new StringConverter()));
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
+
+
+builder.Services.AddMvc(opt => opt.Filters.Add(typeof(ExceptionApplicationFilter)));
+
 builder.Services.AddSwaggerGen(options =>
 {
     options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
@@ -45,20 +50,6 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
-/*builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(options =>
-    {
-#pragma warning disable CS8604 // Possible null reference argument.
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateIssuer = false,
-            ValidateAudience = false,
-            ClockSkew = new TimeSpan(0),
-            IssuerSigningKey = new SymmetricSecurityKey
-            (Encoding.UTF8.GetBytes(builder.Configuration.GetValue<string>("Settings:Jwt:SigningKey")))
-        };
-#pragma warning restore CS8604 // Possible null reference argument.
-    });*/
 
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);

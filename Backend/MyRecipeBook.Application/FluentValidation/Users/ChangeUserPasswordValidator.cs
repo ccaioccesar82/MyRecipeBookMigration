@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using MyRecipeBook.Communication.Request.Users;
+using MyRecipeBook.Exception;
 
 namespace MyRecipeBook.Application.FluentValidation.Users
 {
@@ -8,8 +9,8 @@ namespace MyRecipeBook.Application.FluentValidation.Users
 
         public ChangeUserPasswordValidator()
         {
-            RuleFor(p => p.NewPassword).NotEmpty().WithMessage("Senha não pode ser vazia");
-            RuleFor(p => p.NewPassword.Length).GreaterThanOrEqualTo(6).WithMessage("Senha não pode ser menor do que 6 caracteres");
+            RuleFor(p => p.NewPassword).NotEmpty().WithMessage(ResourceMessageException.PASSWORD_EMPTY);
+            RuleFor(p => p.NewPassword.Length).GreaterThanOrEqualTo(6).WithMessage(ResourceMessageException.PASSWORD_LESS_CHARACTERS);
         }
 
     }

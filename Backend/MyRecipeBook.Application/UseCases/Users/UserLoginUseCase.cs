@@ -5,6 +5,8 @@ using MyRecipeBook.Domain.Interfaces.SecurityInterface;
 using MyRecipeBook.Communication.Response.Users;
 using MyRecipeBook.Communication.Response.Token;
 using MyRecipeBook.Domain.Interfaces.Encrypter;
+using MyRecipeBook.Exception.ExceptionBase;
+using MyRecipeBook.Exception;
 
 namespace MyRecipeBook.Application.UseCases.Users
 {
@@ -25,7 +27,7 @@ namespace MyRecipeBook.Application.UseCases.Users
         }
 
 
-        public async Task<UserLoginResponseJson> Execute(UserRequestLogin request)
+        public async Task<AccessTokenResponseJson> Execute(UserRequestLogin request)
         {
             var hashedPassword = _encrypter.hashData(request.Password);
 
@@ -33,19 +35,20 @@ namespace MyRecipeBook.Application.UseCases.Users
 
             if (userResult == null)
             {
-                throw new Exception("Email e/ou senha inválidos");
+                throw new ErrorOnLoginException(ResourceMessageException.USER_LOGIN_INVALID);
             }
 
-            return new UserLoginResponseJson
+            return new AccessTokenResponseJson
             {
-                accessTokenResponseJson = new AccessTokenResponseJson
-                {
-                    AccessToken = _tokenGenerator.Generate(userResult.Id)
-                }
-
-            };
+                AccessToken = _tokenGenerator.Generate(userResult.Id)
+            }; 
 
         }
+
+
+
+
+
 
     }
 }

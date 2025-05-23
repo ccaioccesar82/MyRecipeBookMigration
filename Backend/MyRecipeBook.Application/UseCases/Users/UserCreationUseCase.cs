@@ -10,6 +10,8 @@ using MyRecipeBook.Domain.Interfaces.Encrypter;
 using MyRecipeBook.Domain.Interfaces.RepositoryInterfaces;
 using MyRecipeBook.Domain.Interfaces.RepositoryInterfaces.Users;
 using MyRecipeBook.Domain.Interfaces.SecurityInterface;
+using MyRecipeBook.Exception;
+using MyRecipeBook.Exception.ExceptionBase;
 
 
 namespace MyRecipeBook.Application.UseCases.Users
@@ -42,9 +44,8 @@ namespace MyRecipeBook.Application.UseCases.Users
         public async Task<UserCreationResponseJson> Execute(UserCreationRequest request)
         {
             //Valida o usuário
-            await ValidateEmail(request.Email);
             Validate(request);
-
+            await ValidateEmail(request.Email);
 
             //Faz um mapeamento com o AutoMapper
 
@@ -82,7 +83,7 @@ namespace MyRecipeBook.Application.UseCases.Users
             {
                 var erroMessage = result.Errors.Select(e => e.ErrorMessage).ToList();
 
-                throw new Exception("Erro de validação");
+                throw new ErrorOnValidationException(erroMessage);
             }
 
         }
@@ -93,8 +94,7 @@ namespace MyRecipeBook.Application.UseCases.Users
 
             if (result == true)
             {
-
-                throw new Exception("Usuário já salvo no banco de dados");
+                throw new ErrorOnValidationException(ResourceMessageException.USER_EMAIL_ALREADY_EXIST);
             }
 
         }

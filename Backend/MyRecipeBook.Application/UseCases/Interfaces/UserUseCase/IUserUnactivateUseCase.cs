@@ -2,6 +2,6 @@
 {
     public interface IUnactivateUserUseCase
     {
-        public Task Execute(Guid id);
+        public Task Execute();
     }
 }

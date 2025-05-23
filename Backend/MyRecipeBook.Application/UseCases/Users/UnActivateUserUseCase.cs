@@ -1,6 +1,7 @@
 ﻿using MyRecipeBook.Application.UseCases.Interfaces.UserUseCaseInterface;
 using MyRecipeBook.Domain.Interfaces.RepositoryInterfaces;
 using MyRecipeBook.Domain.Interfaces.RepositoryInterfaces.Users;
+using MyRecipeBook.Domain.Interfaces.RepositoryInterfaces.Users.Logger;
 using System.Security.Claims;
 
 namespace MyRecipeBook.Application.UseCases.Users
@@ -9,30 +10,24 @@ namespace MyRecipeBook.Application.UseCases.Users
     {
 
         private readonly IWriteOnlyRepository _writeonly;
-        private readonly IReadOnlyRepository _readOnly;
+        private readonly ILoggedUser _loggedUser;
         private IUnityOfWork _unityOfWork;
 
-        public UnactivateUserUseCase(IWriteOnlyRepository writeonly, IReadOnlyRepository readOnly , IUnityOfWork unityOfWork)
+        public UnactivateUserUseCase(IWriteOnlyRepository writeonly, ILoggedUser loggedUser, IUnityOfWork unityOfWork)
         {
             _unityOfWork = unityOfWork;
             _writeonly = writeonly;
-            _readOnly = readOnly;
+            _loggedUser = loggedUser;
         }
 
 
-        public async Task Execute(Guid id)
+        public async Task Execute()
         {
-            var result = await _readOnly.SearchUserById(id);
+            var result = await _loggedUser.FindUserByToken();
 
-            if (result == null)
-            {
-                throw new Exception("User não existe no banco de dados");
-            }
-            else
-            {
-                _writeonly.UnctivateUser(result);
-                await _unityOfWork.Commit();
-            }
+            _writeonly.UnctivateUser(result);
+             await _unityOfWork.Commit();
+        
 
         }      
         

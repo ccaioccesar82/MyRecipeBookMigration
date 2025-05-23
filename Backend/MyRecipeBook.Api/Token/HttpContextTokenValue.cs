@@ -18,7 +18,7 @@ namespace MyRecipeBook.Infrastructure.Security.Token
 
             if (string.IsNullOrWhiteSpace(authorization))
             {
-                throw new Exception("Sem autorização");
+                throw new System.Exception("Sem autorização");
             }
 ;
             return authorization.Substring(7).Trim();

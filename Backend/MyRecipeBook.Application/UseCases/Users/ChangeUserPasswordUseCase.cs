@@ -5,6 +5,8 @@ using MyRecipeBook.Domain.Interfaces.Encrypter;
 using MyRecipeBook.Domain.Interfaces.RepositoryInterfaces;
 using MyRecipeBook.Domain.Interfaces.RepositoryInterfaces.Users;
 using MyRecipeBook.Domain.Interfaces.RepositoryInterfaces.Users.Logger;
+using MyRecipeBook.Exception;
+using MyRecipeBook.Exception.ExceptionBase;
 using ValidationResult = FluentValidation.Results.ValidationResult;
 
 namespace MyRecipeBook.Application.UseCases.Users
@@ -49,18 +51,22 @@ namespace MyRecipeBook.Application.UseCases.Users
         private async Task Validate(Guid userId, string oldPassword ,ChangeUserPasswordRequestJson request)
         {
             ChangeUserPasswordValidator validator = new ChangeUserPasswordValidator();
-            bool resultOldPassword = await _repository.ValidateOldPassword(userId, oldPassword);
-
-            if(resultOldPassword == false)
-            {
-                throw new Exception("Senha Inválida");
-            }
 
             ValidationResult resultNewPassword = validator.Validate(request);
 
-            if(resultNewPassword.IsValid == false)
+            bool resultOldPassword = await _repository.ValidateOldPassword(userId, oldPassword);
+
+            if (resultOldPassword == false)
             {
-                throw new Exception("Nova senha precisa ter entre 6 ou mais caracteres");
+                throw new ErrorOnValidationException(ResourceMessageException.USER_OLDPASSWORD_INVALID);
+            }
+
+
+            if (!resultNewPassword.IsValid)
+            {
+                var errorMessage = resultNewPassword.Errors.Select(e => e.ErrorMessage).ToList();
+
+                throw new ErrorOnValidationException(errorMessage);
 
             }
 

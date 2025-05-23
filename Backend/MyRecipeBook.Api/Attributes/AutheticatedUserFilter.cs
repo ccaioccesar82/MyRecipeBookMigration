@@ -1,6 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc.Filters;
+﻿using System.Linq.Expressions;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
+using MyRecipeBook.Communication.Response;
 using MyRecipeBook.Domain.Interfaces.RepositoryInterfaces.Users;
 using MyRecipeBook.Domain.Interfaces.SecurityInterface.TokenValidator;
+using MyRecipeBook.Exception;
+using MyRecipeBook.Exception.ExceptionBase;
 
 namespace MyRecipeBook.Api.Attributes
 {
@@ -18,31 +23,42 @@ namespace MyRecipeBook.Api.Attributes
 
         public async Task OnAuthorizationAsync(AuthorizationFilterContext context)
         {
-            string token = TokenOnRequest(context);
-            Guid userId = _tokenValidator.ValidateTokenAndTakeUserIdInToken(token);
-
-            var result = await _validateUser.SearchUserById(userId);
-
-            if (result == null)
+            try
             {
-                throw new Exception("User não autorizado");
+                string token = TokenOnRequest(context);
+                Guid userId = _tokenValidator.ValidateTokenAndTakeUserIdInToken(token);
+
+                var result = await _validateUser.SearchUserById(userId);
+
+                if (result == null)
+                {
+                    throw new ErrorOnTokenValidation(ResourceMessageException.UNAUTHORIZED_USER);
+
+                }
+
+            }
+            catch (ErrorOnTokenValidation ex)
+            {
+                context.Result = new UnauthorizedObjectResult(new ResponseErrorJson(ex.ErrorMessage));
 
             }
         }
 
         private string TokenOnRequest(AuthorizationFilterContext context)
         {
+
             var authentication = context.HttpContext.Request.Headers.Authorization.ToString();
             if (string.IsNullOrWhiteSpace(authentication))
             {
-                throw new Exception("Não Autorizado");
+                throw new ErrorOnTokenValidation(ResourceMessageException.UNAUTHORIZED_USER);
             }
 
             return authentication.Substring(7).Trim();
+
 
         }
 
     }
 
-    }
+}
 

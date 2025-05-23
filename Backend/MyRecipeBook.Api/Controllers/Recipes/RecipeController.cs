@@ -3,6 +3,7 @@ using MyRecipeBook.Api.Attributes;
 using MyRecipeBook.Application.UseCases.Interfaces.RecipeUseCase;
 using MyRecipeBook.Communication.Request.Recipes;
 using MyRecipeBook.Communication.Response.Recipes;
+using MyRecipeBook.Exception.ExceptionBase;
 
 namespace MyRecipeBook.Api.Controllers.Recipes
 {
@@ -18,19 +19,11 @@ namespace MyRecipeBook.Api.Controllers.Recipes
         public async Task<IActionResult> Create([FromBody]RecipeCreationRequestJson request,
             [FromServices]IRecipeCreationUseCase recipeCreate)
         {
-            try
-            {
                 var result = await recipeCreate.Execute(request);
-
-
 
                 return Created(string.Empty,result);
 
-            }catch(Exception e)
-            {
-
-                return BadRequest(e);
-            }
+   
         }
 
         [Route("recipe/filter")]
@@ -39,17 +32,11 @@ namespace MyRecipeBook.Api.Controllers.Recipes
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Index([FromBody]RecipeFilterRequestJson request, [FromServices] IFilterRecipesUseCase usecase)
         {
-            try
-            {
+
                 var result = await usecase.Execute(request);
 
                 return Ok(result);
-            }
-            catch (Exception e)
-            {
-                return NotFound(e.Message);
-
-            }
+            
 
         }
 
