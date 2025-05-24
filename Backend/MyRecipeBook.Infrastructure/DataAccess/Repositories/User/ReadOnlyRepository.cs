@@ -35,7 +35,7 @@ namespace MyRecipeBook.Infrastructure.DataAccess.Repositories.User
 
         public async Task<Domain.Entities.UserEntities.User?> SearchUserById(Guid id)
         {
-            return await _dbContext.User.SingleOrDefaultAsync(u => u.Id == id);
+            return await _dbContext.User.SingleOrDefaultAsync(u => u.Id == id && u.Active == true);
         }
 
 

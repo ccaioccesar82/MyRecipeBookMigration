@@ -1,6 +1,7 @@
 ﻿using System.Linq.Expressions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.IdentityModel.Tokens;
 using MyRecipeBook.Communication.Response;
 using MyRecipeBook.Domain.Interfaces.RepositoryInterfaces.Users;
 using MyRecipeBook.Domain.Interfaces.SecurityInterface.TokenValidator;
@@ -40,6 +41,17 @@ namespace MyRecipeBook.Api.Attributes
             catch (ErrorOnTokenValidation ex)
             {
                 context.Result = new UnauthorizedObjectResult(new ResponseErrorJson(ex.ErrorMessage));
+
+            }
+
+            catch (SecurityTokenExpiredException)
+            {
+                context.Result = new UnauthorizedObjectResult(new ResponseErrorJson("TokenExpired"));
+            }
+            catch
+            {
+
+                context.Result = new UnauthorizedObjectResult(new ResponseErrorJson(ResourceMessageException.UNAUTHORIZED_USER));
 
             }
         }

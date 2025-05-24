@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MyRecipeBook.Exception.ExceptionBase
+﻿namespace MyRecipeBook.Exception.ExceptionBase
 {
-    public class MyRecipeBookBaseException : SystemException
+    public abstract class MyRecipeBookBaseException : SystemException
     {
     }
 }
