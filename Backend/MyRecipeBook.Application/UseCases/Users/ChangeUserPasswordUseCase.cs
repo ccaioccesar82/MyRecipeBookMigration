@@ -15,15 +15,15 @@ namespace MyRecipeBook.Application.UseCases.Users
     {
 
         private readonly ILoggedUser _loggeduser;
-        private readonly IReadOnlyRepository _repository;
-        private readonly IWriteOnlyRepository _writeOnly;
+        private readonly IUserReadOnlyRepository _repository;
+        private readonly IUserWriteOnlyRepository _writeOnly;
         private readonly IUnityOfWork _unityOfWork;
         private readonly IEncrypterData _encrypter;
 
         public ChangeUserPasswordUseCase(ILoggedUser loggeduser, 
-            IReadOnlyRepository repository, IUnityOfWork unityOfWork, 
+            IUserReadOnlyRepository repository, IUnityOfWork unityOfWork, 
             IEncrypterData encrypter,
-            IWriteOnlyRepository writeOnly)
+            IUserWriteOnlyRepository writeOnly)
         {
             _loggeduser = loggeduser;
             _repository = repository;

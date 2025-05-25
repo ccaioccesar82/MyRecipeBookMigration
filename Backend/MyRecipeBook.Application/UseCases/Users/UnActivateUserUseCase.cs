@@ -9,11 +9,11 @@ namespace MyRecipeBook.Application.UseCases.Users
     public class UnactivateUserUseCase : IUnactivateUserUseCase
     {
 
-        private readonly IWriteOnlyRepository _writeonly;
+        private readonly IUserWriteOnlyRepository _writeonly;
         private readonly ILoggedUser _loggedUser;
         private IUnityOfWork _unityOfWork;
 
-        public UnactivateUserUseCase(IWriteOnlyRepository writeonly, ILoggedUser loggedUser, IUnityOfWork unityOfWork)
+        public UnactivateUserUseCase(IUserWriteOnlyRepository writeonly, ILoggedUser loggedUser, IUnityOfWork unityOfWork)
         {
             _unityOfWork = unityOfWork;
             _writeonly = writeonly;

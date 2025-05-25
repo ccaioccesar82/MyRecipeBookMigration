@@ -19,16 +19,16 @@ namespace MyRecipeBook.Application.UseCases.Users
     public class UserCreationUseCase : IUserCreateUserCase
     {
 
-        private IWriteOnlyRepository _writeOnly;
-        private readonly IReadOnlyRepository _readOnly;
+        private IUserWriteOnlyRepository _writeOnly;
+        private readonly IUserReadOnlyRepository _readOnly;
         private IMapper _mapper;
         private IUnityOfWork _unityOfWork;
         private ITokenGenerator _tokenGenerator;
         private readonly IEncrypterData _encrypter;
 
 
-        public UserCreationUseCase(IWriteOnlyRepository writeOnly, 
-            IReadOnlyRepository readOnly, 
+        public UserCreationUseCase(IUserWriteOnlyRepository writeOnly, 
+            IUserReadOnlyRepository readOnly, 
             IMapper mapper, 
             IUnityOfWork unityOfWork, 
             ITokenGenerator tokenGenerator, IEncrypterData encrypter)

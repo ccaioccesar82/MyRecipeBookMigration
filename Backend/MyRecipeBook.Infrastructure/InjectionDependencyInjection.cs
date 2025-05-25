@@ -45,13 +45,13 @@ namespace Microsoft.AspNetCore.Builder
         private static void addRepositories(IServiceCollection service)
         {
 
-            service.AddScoped<IWriteOnlyRepository, WriteOnlyRepository>();
+            service.AddScoped<IUserWriteOnlyRepository, UserWriteOnlyRepository>();
             service.AddScoped<ILoggedUser, LoggedUser>();
             service.AddScoped<IUnityOfWork, UnityOfWork>();
-            service.AddScoped<IReadOnlyRepository,  ReadOnlyRepository>();
+            service.AddScoped<IUserReadOnlyRepository,  UserReadOnlyRepository>();
             service.AddScoped<IEncrypterData, EncrypterData>();
             service.AddScoped<IRecipeWriteOnlyRepository, RecipeWriteOnlyRepository>();
-            service.AddScoped<IRecipeReadOnlyRepository, ReciReadOnlyRepository>();
+            service.AddScoped<IRecipeReadOnlyRepository, RecipeReadOnlyRepository>();
         }
 
         private static void AddTokens(IServiceCollection service, IConfiguration configuration)

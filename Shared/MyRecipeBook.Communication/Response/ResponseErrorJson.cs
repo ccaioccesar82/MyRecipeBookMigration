@@ -11,7 +11,6 @@ namespace MyRecipeBook.Communication.Response
 
         public IList<string> ErroMessages { get; set; } = new List<string>();
 
-
         public ResponseErrorJson(IList<string> erroMessages)
         {
             ErroMessages = erroMessages;

@@ -10,18 +10,19 @@ using MyRecipeBook.Domain.Interfaces.RepositoryInterfaces.Recipes;
 
 namespace MyRecipeBook.Infrastructure.DataAccess.Repositories.RecipeRepository
 {
-    public class ReciReadOnlyRepository: IRecipeReadOnlyRepository
+    public class RecipeReadOnlyRepository: IRecipeReadOnlyRepository
     {
         private readonly MyRecipeBookDbContext _dbContext;
 
-        public ReciReadOnlyRepository(MyRecipeBookDbContext dbContext)
+        public RecipeReadOnlyRepository(MyRecipeBookDbContext dbContext)
         {
             _dbContext = dbContext;
         }
 
 
         public async Task<Recipe?> FindRecipeById(Guid recipeId, Guid userId)  => 
-            await _dbContext.Recipes.FirstOrDefaultAsync(r => r.Id.Equals(recipeId) && r.UsersID.Equals(userId));
+            await _dbContext.Recipes.Include(r => r.DishType).
+            Include(r => r.Ingredients).Include(r => r.Instructions).FirstOrDefaultAsync(r => r.Id.Equals(recipeId) && r.UsersID.Equals(userId));
 
 
 
@@ -33,7 +34,6 @@ namespace MyRecipeBook.Infrastructure.DataAccess.Repositories.RecipeRepository
                 .Where(recipe => recipe.Active == true && recipe.UsersID == userId);
 
 
-            var result = await query.ToListAsync();
 
             if (filter.DishTypes.Any())
             {
@@ -59,7 +59,7 @@ namespace MyRecipeBook.Infrastructure.DataAccess.Repositories.RecipeRepository
             }
 
 
-            return result;
+            return await query.ToListAsync();
         }
 
     }

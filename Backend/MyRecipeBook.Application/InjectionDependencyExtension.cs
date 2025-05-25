@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.Diagnostics.Tracing;
+using System.Reflection;
 using Mapster;
 using Microsoft.Extensions.DependencyInjection;
 using MyRecipeBook.Application.UseCases.Interfaces.RecipeUseCase;
@@ -62,11 +63,6 @@ namespace Microsoft.AspNetCore.Builder
              .Map(dest => dest.IngredientNumber, source => source.Ingredients.Count())
              .Map(dest => dest.Id, source => source.Id);
 
-
-            TypeAdapterConfig<Recipe, RecipeResponseJson>
-                .NewConfig()
-                .Ignore(dest => dest.Ingredients);
-               
 
             TypeAdapterConfig.GlobalSettings.Scan(Assembly.GetExecutingAssembly());
         }

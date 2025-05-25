@@ -1,6 +1,6 @@
 ﻿namespace MyRecipeBook.Domain.Interfaces.RepositoryInterfaces.Users
 {
-    public interface IReadOnlyRepository
+    public interface IUserReadOnlyRepository
     {
         public Task<bool> ValidateOldPassword(Guid userId, string currentPassword);
 

@@ -14,9 +14,9 @@ namespace MyRecipeBook.Api.Attributes
     {
 
         private readonly ITokenValidator _tokenValidator;
-        private readonly IReadOnlyRepository _validateUser;
+        private readonly IUserReadOnlyRepository _validateUser;
 
-        public AutheticatedUserFilter(ITokenValidator tokenValidator, IReadOnlyRepository validateUser)
+        public AutheticatedUserFilter(ITokenValidator tokenValidator, IUserReadOnlyRepository validateUser)
         {
             _tokenValidator = tokenValidator;
             _validateUser = validateUser;

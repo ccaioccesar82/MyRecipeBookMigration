@@ -3,12 +3,12 @@ using MyRecipeBook.Domain.Interfaces.RepositoryInterfaces.Users;
 
 namespace MyRecipeBook.Infrastructure.DataAccess.Repositories.User
 {
-    public class WriteOnlyRepository : IWriteOnlyRepository
+    public class UserWriteOnlyRepository : IUserWriteOnlyRepository
     {
 
         private readonly MyRecipeBookDbContext _dbContext;
 
-        public WriteOnlyRepository(MyRecipeBookDbContext dbContext)
+        public UserWriteOnlyRepository(MyRecipeBookDbContext dbContext)
         {
             _dbContext = dbContext;
         }

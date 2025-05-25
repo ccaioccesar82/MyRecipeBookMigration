@@ -12,12 +12,12 @@ namespace MyRecipeBook.Application.UseCases.Users
 {
     public class UserLoginUseCase : IUserLoginUseCase
     {
-        private readonly IReadOnlyRepository _readOnly;
+        private readonly IUserReadOnlyRepository _readOnly;
         private readonly ITokenGenerator _tokenGenerator;
         private readonly IEncrypterData _encrypter;
 
-        public UserLoginUseCase(IWriteOnlyRepository writeonly,
-            IReadOnlyRepository readOnly , ITokenGenerator tokenGenerator, 
+        public UserLoginUseCase(IUserWriteOnlyRepository writeonly,
+            IUserReadOnlyRepository readOnly , ITokenGenerator tokenGenerator, 
             IEncrypterData encrypter)
         {
             _tokenGenerator = tokenGenerator;

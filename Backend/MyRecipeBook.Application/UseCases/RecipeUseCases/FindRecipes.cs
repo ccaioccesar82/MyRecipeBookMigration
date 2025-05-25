@@ -18,7 +18,7 @@ namespace MyRecipeBook.Application.UseCases.RecipeUseCases
         private readonly ILoggedUser _loggedUser;
         private readonly IMapper _mapper;
 
-        public FindRecipes(IRecipeReadOnlyRepository readOnly, 
+        public FindRecipes(IRecipeReadOnlyRepository readOnly,
             ILoggedUser loggedUser,
             IMapper mapper)
         {
@@ -54,17 +54,39 @@ namespace MyRecipeBook.Application.UseCases.RecipeUseCases
                 throw new NotFoundException(ResourceMessageException.NOT_FOUND_ERROR);
             }
 
-            var response = recipeResult.Adapt<RecipeResponseJson>();
+            var response = new RecipeResponseJson()
+            {
+                Title = recipeResult.Title,
+                Time = (Communication.Enums.CookingTime?)recipeResult.Time,
+                Difficulty = (Communication.Enums.Difficulty?)recipeResult.Difficulty,
+            };
 
-            for(int i = 0; i < recipeResult.Ingredients.Count; i++)
+            for (int i = 0; i < recipeResult.Ingredients.Count; i++)
             {
                 response.Ingredients.Add(recipeResult.Ingredients.ElementAt(i).Name);
             }
 
+            for (int i = 0; i < recipeResult.DishType.Count; i++)
+            {
+                response.DishType.Add((Communication.Enums.DishType)recipeResult.DishType.ElementAt(i).Type);
 
+            }
+
+            for (int i = 0; i < recipeResult.Instructions.Count; i++)
+            {
+                response.Instructions.Add(new InstructionResponseJson
+                {
+                    Step = recipeResult.Instructions.ElementAt(i).Step,
+                    ToDo = recipeResult.Instructions.ElementAt(i).ToDo,
+                });
+            }
+
+    
             return response;
         }
 
     }
 
+
 }
+
