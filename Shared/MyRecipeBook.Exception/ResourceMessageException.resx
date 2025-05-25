@@ -129,6 +129,9 @@
   <data name="NAME_EMPTY" xml:space="preserve">
     <value>O campo nome não pode ser vazio</value>
   </data>
+  <data name="NOT_FOUND_ERROR" xml:space="preserve">
+    <value>Objeto não encontrado</value>
+  </data>
   <data name="PASSWORD_EMPTY" xml:space="preserve">
     <value>A senha não pode ser vazia</value>
   </data>

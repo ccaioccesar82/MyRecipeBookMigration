@@ -36,6 +36,7 @@ namespace Microsoft.AspNetCore.Builder
             service.AddScoped<IUserLoginUseCase, UserLoginUseCase>();
             service.AddScoped<IRecipeCreationUseCase, RecipeCreationUseCase>();
             service.AddScoped<IFilterRecipesUseCase, FilterRecipesUseCase>();
+            service.AddScoped<IDeleteRecipeUseCase, DeleteRecipeUseCase>();
         }
 
 

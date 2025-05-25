@@ -8,8 +8,9 @@ using MyRecipeBook.Domain.Entities.RecipeEntities;
 
 namespace MyRecipeBook.Domain.Interfaces.RepositoryInterfaces.Recipes
 {
-    public interface IReciReadOnlyRepository
+    public interface IRecipeReadOnlyRepository
     {
         public Task<IList<Recipe>> FilterRecipes(Guid userId, FilterRecipeDTO filter);
+        public Task<Recipe?> FindRecipeById(Guid recipeId, Guid userId);
     }
 }

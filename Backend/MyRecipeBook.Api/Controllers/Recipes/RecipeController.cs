@@ -40,5 +40,17 @@ namespace MyRecipeBook.Api.Controllers.Recipes
 
         }
 
+
+        [Route("recipe/delete/{recipeId}")]
+        [HttpDelete]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> Index(Guid recipeId, [FromServices] IDeleteRecipeUseCase usecase)
+        {
+            await usecase.Execute(recipeId);
+
+            return Ok();
+        }
+
     }
 }

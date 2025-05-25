@@ -10,7 +10,7 @@ using MyRecipeBook.Domain.Interfaces.RepositoryInterfaces.Recipes;
 
 namespace MyRecipeBook.Infrastructure.DataAccess.Repositories.RecipeRepository
 {
-    public class ReciReadOnlyRepository: IReciReadOnlyRepository
+    public class ReciReadOnlyRepository: IRecipeReadOnlyRepository
     {
         private readonly MyRecipeBookDbContext _dbContext;
 
@@ -18,6 +18,11 @@ namespace MyRecipeBook.Infrastructure.DataAccess.Repositories.RecipeRepository
         {
             _dbContext = dbContext;
         }
+
+
+        public async Task<Recipe?> FindRecipeById(Guid recipeId, Guid userId)  => 
+            await _dbContext.Recipes.FirstOrDefaultAsync(r => r.Id.Equals(recipeId) && r.UsersID.Equals(userId));
+
 
 
 
@@ -56,5 +61,6 @@ namespace MyRecipeBook.Infrastructure.DataAccess.Repositories.RecipeRepository
 
             return result;
         }
+
     }
 }

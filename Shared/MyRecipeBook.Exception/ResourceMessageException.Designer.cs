@@ -97,6 +97,15 @@ namespace MyRecipeBook.Exception {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Objeto não encontrado.
+        /// </summary>
+        public static string NOT_FOUND_ERROR {
+            get {
+                return ResourceManager.GetString("NOT_FOUND_ERROR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to A senha não pode ser vazia.
         /// </summary>
         public static string PASSWORD_EMPTY {

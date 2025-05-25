@@ -12,11 +12,11 @@ namespace MyRecipeBook.Application.UseCases.RecipeUseCases
     public class FilterRecipesUseCase : IFilterRecipesUseCase
     {
 
-        private readonly IReciReadOnlyRepository _readOnly;
+        private readonly IRecipeReadOnlyRepository _readOnly;
         private readonly ILoggedUser _loggedUser;
         private readonly IMapper _mapper;
 
-        public FilterRecipesUseCase(IReciReadOnlyRepository readOnly, 
+        public FilterRecipesUseCase(IRecipeReadOnlyRepository readOnly, 
             ILoggedUser loggedUser,
             IMapper mapper)
         {

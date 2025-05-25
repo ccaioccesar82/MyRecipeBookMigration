@@ -43,6 +43,15 @@ namespace MyRecipeBook.Api.ExceptionFilters
                 context.Result = new ObjectResult(new ResponseErrorJson(exception!.ErrorMessage));
             }
 
+            if(context.Exception is NotFoundException)
+            {
+
+                var exception = context.Exception as NotFoundException;
+
+                context.HttpContext.Response.StatusCode = (int)HttpStatusCode.NotFound;
+                context.Result = new NotFoundObjectResult(new ResponseErrorJson(exception!.ErroMessage));
+            }
+
         }
 
 
