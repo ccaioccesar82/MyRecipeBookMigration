@@ -54,12 +54,7 @@ namespace MyRecipeBook.Application.UseCases.RecipeUseCases
                 throw new NotFoundException(ResourceMessageException.NOT_FOUND_ERROR);
             }
 
-            var response = new RecipeResponseJson()
-            {
-                Title = recipeResult.Title,
-                Time = (Communication.Enums.CookingTime?)recipeResult.Time,
-                Difficulty = (Communication.Enums.Difficulty?)recipeResult.Difficulty,
-            };
+            var response = recipeResult.Adapt<RecipeResponseJson>();
 
             for (int i = 0; i < recipeResult.Ingredients.Count; i++)
             {
@@ -71,16 +66,6 @@ namespace MyRecipeBook.Application.UseCases.RecipeUseCases
                 response.DishType.Add((Communication.Enums.DishType)recipeResult.DishType.ElementAt(i).Type);
 
             }
-
-            for (int i = 0; i < recipeResult.Instructions.Count; i++)
-            {
-                response.Instructions.Add(new InstructionResponseJson
-                {
-                    Step = recipeResult.Instructions.ElementAt(i).Step,
-                    ToDo = recipeResult.Instructions.ElementAt(i).ToDo,
-                });
-            }
-
     
             return response;
         }

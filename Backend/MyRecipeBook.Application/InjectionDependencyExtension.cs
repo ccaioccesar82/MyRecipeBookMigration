@@ -64,6 +64,12 @@ namespace Microsoft.AspNetCore.Builder
              .Map(dest => dest.Id, source => source.Id);
 
 
+            TypeAdapterConfig<Recipe, RecipeResponseJson>
+              .NewConfig()
+              .Ignore(dest => dest.Ingredients)
+               .Ignore(dest => dest.DishType);
+
+
             TypeAdapterConfig.GlobalSettings.Scan(Assembly.GetExecutingAssembly());
         }
     }

@@ -66,6 +66,18 @@ namespace MyRecipeBook.Api.Controllers.Recipes
             return Ok(result);
         }
 
+
+        [Route("recipe/update/{recipeId}")]
+        [HttpPut]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public IActionResult Update(Guid recipeId, [FromBody] RecipeUpdateRequestJson request )
+        {
+
+  
+            return Ok();
+        }
+
     }
 
 }
