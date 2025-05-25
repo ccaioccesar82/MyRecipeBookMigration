@@ -30,10 +30,10 @@ namespace MyRecipeBook.Api.Controllers.Recipes
         [HttpPost]
         [ProducesResponseType(typeof(RecipeFilteredResponseJson),StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> Index([FromBody]RecipeFilterRequestJson request, [FromServices] IFilterRecipesUseCase usecase)
+        public async Task<IActionResult> Index([FromBody]RecipeFilterRequestJson request, [FromServices] IFindRecipes usecase)
         {
 
-                var result = await usecase.Execute(request);
+                var result = await usecase.FilterRecipe(request);
 
                 return Ok(result);
             
@@ -45,12 +45,28 @@ namespace MyRecipeBook.Api.Controllers.Recipes
         [HttpDelete]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> Index(Guid recipeId, [FromServices] IDeleteRecipeUseCase usecase)
+        public async Task<IActionResult> Delete(Guid recipeId, [FromServices] IDeleteRecipeUseCase usecase)
         {
             await usecase.Execute(recipeId);
 
             return Ok();
         }
 
+
+
+        [Route("recipe/{recipeId}")]
+        [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> SearchRecipe(Guid recipeId, [FromServices] IFindRecipes usecase)
+        {
+
+            var result = await usecase.FindRecipe(recipeId);
+
+            return Ok(result);
+        }
+
     }
+
 }
+

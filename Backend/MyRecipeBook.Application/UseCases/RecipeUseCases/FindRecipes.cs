@@ -6,17 +6,19 @@ using MyRecipeBook.Communication.Response.Recipes;
 using MyRecipeBook.Domain.DTO;
 using MyRecipeBook.Domain.Interfaces.RepositoryInterfaces.Recipes;
 using MyRecipeBook.Domain.Interfaces.RepositoryInterfaces.Users.Logger;
+using MyRecipeBook.Exception;
+using MyRecipeBook.Exception.ExceptionBase;
 
 namespace MyRecipeBook.Application.UseCases.RecipeUseCases
 {
-    public class FilterRecipesUseCase : IFilterRecipesUseCase
+    public class FindRecipes : IFindRecipes
     {
 
         private readonly IRecipeReadOnlyRepository _readOnly;
         private readonly ILoggedUser _loggedUser;
         private readonly IMapper _mapper;
 
-        public FilterRecipesUseCase(IRecipeReadOnlyRepository readOnly, 
+        public FindRecipes(IRecipeReadOnlyRepository readOnly, 
             ILoggedUser loggedUser,
             IMapper mapper)
         {
@@ -26,7 +28,7 @@ namespace MyRecipeBook.Application.UseCases.RecipeUseCases
         }
 
 
-        public async Task<IList<RecipeFilteredResponseJson>> Execute(RecipeFilterRequestJson request)
+        public async Task<IList<RecipeFilteredResponseJson>> FilterRecipe(RecipeFilterRequestJson request)
         {
             //pega o userid
             var user = await _loggedUser.FindUserByToken();
@@ -38,6 +40,29 @@ namespace MyRecipeBook.Application.UseCases.RecipeUseCases
             var listReponse = result.Adapt<IList<RecipeFilteredResponseJson>>();
 
             return listReponse;
+        }
+
+
+        public async Task<RecipeResponseJson> FindRecipe(Guid recipeId)
+        {
+            var user = await _loggedUser.FindUserByToken();
+
+            var recipeResult = await _readOnly.FindRecipeById(recipeId, user.Id);
+
+            if (recipeResult == null)
+            {
+                throw new NotFoundException(ResourceMessageException.NOT_FOUND_ERROR);
+            }
+
+            var response = recipeResult.Adapt<RecipeResponseJson>();
+
+            for(int i = 0; i < recipeResult.Ingredients.Count; i++)
+            {
+                response.Ingredients.Add(recipeResult.Ingredients.ElementAt(i).Name);
+            }
+
+
+            return response;
         }
 
     }
