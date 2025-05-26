@@ -27,6 +27,16 @@ namespace MyRecipeBook.Infrastructure.DataAccess.Repositories.RecipeRepository
 
 
 
+        public async Task<IList<Recipe>> RecipesToDashboard(Guid userId) =>
+                 await _dbContext.Recipes.AsNoTracking().
+                 Include(r => r.Ingredients).Where(r => r.Active && r.UsersID.Equals(userId))
+                 .OrderByDescending(r => r.CreatedOn)
+                 .Take(5)
+                 .ToListAsync();
+
+        
+
+
         public async Task<IList<Recipe>>FilterRecipes(Guid userId, FilterRecipeDTO filter)
         {
             var query = _dbContext.Recipes.

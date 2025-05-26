@@ -12,5 +12,7 @@ namespace MyRecipeBook.Domain.Interfaces.RepositoryInterfaces.Recipes
     {
         public Task<IList<Recipe>> FilterRecipes(Guid userId, FilterRecipeDTO filter);
         public Task<Recipe?> FindRecipeById(Guid recipeId, Guid userId);
+
+        public Task<IList<Recipe>> RecipesToDashboard(Guid userId);
     }
 }

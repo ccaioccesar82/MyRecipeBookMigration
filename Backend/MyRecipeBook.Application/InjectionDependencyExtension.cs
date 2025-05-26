@@ -2,6 +2,8 @@
 using System.Reflection;
 using Mapster;
 using Microsoft.Extensions.DependencyInjection;
+using MyRecipeBook.Application.UseCases.DashBoardUseCases;
+using MyRecipeBook.Application.UseCases.Interfaces.DashBoardUseCase;
 using MyRecipeBook.Application.UseCases.Interfaces.RecipeUseCase;
 using MyRecipeBook.Application.UseCases.Interfaces.UserUseCaseInterface;
 using MyRecipeBook.Application.UseCases.RecipeUseCases;
@@ -35,6 +37,7 @@ namespace Microsoft.AspNetCore.Builder
             service.AddScoped<IFindRecipes, FindRecipes>();
             service.AddScoped<IDeleteRecipeUseCase, DeleteRecipeUseCase>();
             service.AddScoped<IUpdateRecipeUseCase, UpdateRecipeUseCase>();
+            service.AddScoped<IDashBoardUseCase, DashBoardUseCase>();
         }
 
 
