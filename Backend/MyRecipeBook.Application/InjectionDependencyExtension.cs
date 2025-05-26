@@ -34,6 +34,7 @@ namespace Microsoft.AspNetCore.Builder
             service.AddScoped<IRecipeCreationUseCase, RecipeCreationUseCase>();
             service.AddScoped<IFindRecipes, FindRecipes>();
             service.AddScoped<IDeleteRecipeUseCase, DeleteRecipeUseCase>();
+            service.AddScoped<IUpdateRecipeUseCase, UpdateRecipeUseCase>();
         }
 
 
@@ -48,7 +49,7 @@ namespace Microsoft.AspNetCore.Builder
                 .Ignore(dest => dest.Password);
 
 
-            TypeAdapterConfig<RecipeCreationRequestJson, Recipe>
+            TypeAdapterConfig<RecipeCreationAndUpdateRequestJson, Recipe>
             .NewConfig()
             .Map(dest => dest.DishType, source => source.DishType.Distinct())
             .Ignore(dest => dest.Ingredients)
@@ -57,7 +58,7 @@ namespace Microsoft.AspNetCore.Builder
             TypeAdapterConfig<InstructionCreateRequestJson, Instruction>
               .NewConfig();
 
-            TypeAdapterConfig<Recipe, RecipeFilteredResponseJson>
+            TypeAdapterConfig<Recipe, RecipeShortResponseJson>
              .NewConfig()
              .Map(dest => dest.Title, source => source.Title)
              .Map(dest => dest.IngredientNumber, source => source.Ingredients.Count())

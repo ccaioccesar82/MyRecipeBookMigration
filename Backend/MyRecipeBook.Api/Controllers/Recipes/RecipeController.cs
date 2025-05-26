@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 using MyRecipeBook.Api.Attributes;
 using MyRecipeBook.Application.UseCases.Interfaces.RecipeUseCase;
 using MyRecipeBook.Communication.Request.Recipes;
@@ -16,7 +17,7 @@ namespace MyRecipeBook.Api.Controllers.Recipes
         [HttpPost]
         [ProducesResponseType(typeof(RecipeCreationResponseJson), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Create([FromBody]RecipeCreationRequestJson request,
+        public async Task<IActionResult> Create([FromBody]RecipeCreationAndUpdateRequestJson request,
             [FromServices]IRecipeCreationUseCase recipeCreate)
         {
                 var result = await recipeCreate.Execute(request);
@@ -28,7 +29,7 @@ namespace MyRecipeBook.Api.Controllers.Recipes
 
         [Route("recipe/filter")]
         [HttpPost]
-        [ProducesResponseType(typeof(RecipeFilteredResponseJson),StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(RecipeShortResponseJson),StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Index([FromBody]RecipeFilterRequestJson request, [FromServices] IFindRecipes usecase)
         {
@@ -45,7 +46,7 @@ namespace MyRecipeBook.Api.Controllers.Recipes
         [HttpDelete]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> Delete(Guid recipeId, [FromServices] IDeleteRecipeUseCase usecase)
+        public async Task<IActionResult> Delete([FromRoute]Guid recipeId, [FromServices] IDeleteRecipeUseCase usecase)
         {
             await usecase.Execute(recipeId);
 
@@ -58,7 +59,7 @@ namespace MyRecipeBook.Api.Controllers.Recipes
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> SearchRecipe(Guid recipeId, [FromServices] IFindRecipes usecase)
+        public async Task<IActionResult> SearchRecipe([FromRoute]Guid recipeId, [FromServices] IFindRecipes usecase)
         {
 
             var result = await usecase.FindRecipe(recipeId);
@@ -71,9 +72,9 @@ namespace MyRecipeBook.Api.Controllers.Recipes
         [HttpPut]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public IActionResult Update(Guid recipeId, [FromBody] RecipeUpdateRequestJson request )
+        public async Task<IActionResult> Update([FromRoute]Guid recipeId, [FromBody] RecipeCreationAndUpdateRequestJson request, [FromServices] IUpdateRecipeUseCase usecase )
         {
-
+            await usecase.Execute(recipeId, request);
   
             return Ok();
         }

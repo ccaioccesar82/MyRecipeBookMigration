@@ -1,7 +1,7 @@
 ﻿using MyRecipeBook.Communication.Enums;
 namespace MyRecipeBook.Communication.Request.Recipes
 {
-    public class RecipeCreationRequestJson
+    public class RecipeCreationAndUpdateRequestJson
     {
         public string Title { get; set; } = string.Empty;
         public IList<string> Ingredients { get; set; } = new List<string>();

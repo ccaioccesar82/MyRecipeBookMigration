@@ -1,50 +1,54 @@
-﻿using Mapster;
-using MapsterMapper;
-using MyRecipeBook.Application.FluentValidation.Recipes;
-using MyRecipeBook.Application.UseCases.Interfaces.RecipeUseCase;
-using MyRecipeBook.Communication.Request.Recipes;
-using MyRecipeBook.Communication.Response.Recipes;
-using MyRecipeBook.Domain.Entities.RecipeEntities;
-using MyRecipeBook.Domain.Interfaces.RepositoryInterfaces;
-using MyRecipeBook.Domain.Interfaces.RepositoryInterfaces.Recipes;
+﻿using MyRecipeBook.Domain.Interfaces.RepositoryInterfaces.Recipes;
 using MyRecipeBook.Domain.Interfaces.RepositoryInterfaces.Users.Logger;
 using MyRecipeBook.Exception.ExceptionBase;
+using MyRecipeBook.Exception;
+using MyRecipeBook.Domain.Entities.RecipeEntities;
+using MyRecipeBook.Communication.Request.Recipes;
+using Mapster;
+using MyRecipeBook.Domain.Interfaces.RepositoryInterfaces;
+using MyRecipeBook.Application.FluentValidation.Recipes;
+using MyRecipeBook.Application.UseCases.Interfaces.RecipeUseCase;
 
 namespace MyRecipeBook.Application.UseCases.RecipeUseCases
 {
-    public class RecipeCreationUseCase : IRecipeCreationUseCase
+    public class UpdateRecipeUseCase : IUpdateRecipeUseCase
     {
-
-        private readonly IMapper _mapper;
-        private readonly ILoggedUser _loggedUser;
+        private readonly IRecipeReadOnlyRepository _readOnly;
         private readonly IRecipeWriteOnlyRepository _writeOnly;
+        private readonly ILoggedUser _loggedUser;
         private readonly IUnityOfWork _unityOfWork;
 
-        public RecipeCreationUseCase(IMapper mapper,
-            ILoggedUser loggedUser,
+        public UpdateRecipeUseCase(IRecipeReadOnlyRepository readOnly,
             IRecipeWriteOnlyRepository writeOnly,
-            IUnityOfWork unityOfWork)
-
+             ILoggedUser loggedUser,
+             IUnityOfWork unityOfWork)
         {
-            _mapper = mapper;
-            _loggedUser = loggedUser;
+
+            _readOnly = readOnly;
             _writeOnly = writeOnly;
+            _loggedUser = loggedUser;
             _unityOfWork = unityOfWork;
         }
 
 
-        public async Task<RecipeCreationResponseJson> Execute(RecipeCreationAndUpdateRequestJson request)
+        public async Task Execute(Guid recipeId, RecipeCreationAndUpdateRequestJson request)
         {
             Validate(request);
 
             var user = await _loggedUser.FindUserByToken();
 
+            var recipe = await _readOnly.FindRecipeById(recipeId, user.Id);
 
-            Recipe recipe = request.Adapt<Recipe>();
+            if (recipe == null)
+            {
+                throw new NotFoundException(ResourceMessageException.NOT_FOUND_ERROR);
+            }
 
-            recipe.UsersID = user.Id;
+            recipe.Instructions.Clear();
+            recipe.DishType.Clear();
+            recipe.Ingredients.Clear();
 
-            //transforma o array de ingredients numa lista de ingredients
+            request.Adapt(recipe);
 
             for (int i = 0; i < request.Ingredients.Count; i++)
             {
@@ -55,10 +59,6 @@ namespace MyRecipeBook.Application.UseCases.RecipeUseCases
 
                 });
             }
-
-            /* Pega a lista de instruções e valida a ordem dos steps. Se o user passar os steps bagunçados,
-            o sistema irá ordenar do menor número para o maior e depois atribuir os steps por ordem de 1,2,3...
-            */
 
             var instructions = request.Instructions.OrderBy(i => i.Step).ToList();
 
@@ -71,16 +71,17 @@ namespace MyRecipeBook.Application.UseCases.RecipeUseCases
 
             recipe.Instructions = instructions.Adapt<IList<Instruction>>();
 
-            await _writeOnly.CreateRecipe(recipe);
+            _writeOnly.UpdateRecipe(recipe);
 
             await _unityOfWork.Commit();
-
-            return new RecipeCreationResponseJson
-            {
-                Title = recipe.Title
-            };
-
         }
+
+
+
+
+
+
+
 
         private void Validate(RecipeCreationAndUpdateRequestJson request)
         {
@@ -95,6 +96,5 @@ namespace MyRecipeBook.Application.UseCases.RecipeUseCases
                 throw new ErrorOnValidationException(errormessages);
             }
         }
-
     }
 }

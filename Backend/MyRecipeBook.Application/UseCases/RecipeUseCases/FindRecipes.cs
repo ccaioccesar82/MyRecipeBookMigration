@@ -28,7 +28,7 @@ namespace MyRecipeBook.Application.UseCases.RecipeUseCases
         }
 
 
-        public async Task<IList<RecipeFilteredResponseJson>> FilterRecipe(RecipeFilterRequestJson request)
+        public async Task<RecipeListResponseJson> FilterRecipe(RecipeFilterRequestJson request)
         {
             //pega o userid
             var user = await _loggedUser.FindUserByToken();
@@ -37,9 +37,13 @@ namespace MyRecipeBook.Application.UseCases.RecipeUseCases
 
             var result = await _readOnly.FilterRecipes(user.Id, filter);
 
-            var listReponse = result.Adapt<IList<RecipeFilteredResponseJson>>();
+            var listReponse = result.Adapt<IList<RecipeShortResponseJson>>();
 
-            return listReponse;
+            return new RecipeListResponseJson
+            {
+
+                Recipes = listReponse,
+            };
         }
 
 

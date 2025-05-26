@@ -13,5 +13,7 @@ namespace MyRecipeBook.Infrastructure.DataAccess.Repositories.RecipeRepository
 
         public async Task CreateRecipe(Recipe recipe)=>  await _dbContext.AddAsync(recipe);
 
+        public void UpdateRecipe(Recipe recipe) => _dbContext.Recipes.Update(recipe);
+
     }
 }

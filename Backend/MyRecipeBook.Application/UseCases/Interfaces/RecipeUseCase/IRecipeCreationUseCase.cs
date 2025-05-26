@@ -5,6 +5,6 @@ namespace MyRecipeBook.Application.UseCases.Interfaces.RecipeUseCase
 {
     public interface IRecipeCreationUseCase
     {
-        public Task<RecipeCreationResponseJson> Execute(RecipeCreationRequestJson request);
+        public Task<RecipeCreationResponseJson> Execute(RecipeCreationAndUpdateRequestJson request);
     }
 }

@@ -7,5 +7,7 @@ namespace MyRecipeBook.Domain.Interfaces.RepositoryInterfaces.Recipes
         public Task CreateRecipe(Recipe recipe);
 
         public void DeleteRecipe(Recipe recipe);
+
+        public void UpdateRecipe(Recipe recipe);
     }
 }

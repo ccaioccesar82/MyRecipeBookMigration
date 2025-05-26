@@ -4,7 +4,7 @@ using MyRecipeBook.Exception;
 
 namespace MyRecipeBook.Application.FluentValidation.Recipes
 {
-    public class RecipeCreationValidator : AbstractValidator<RecipeCreationRequestJson>
+    public class RecipeCreationValidator : AbstractValidator<RecipeCreationAndUpdateRequestJson>
     {
         public RecipeCreationValidator()
         {
